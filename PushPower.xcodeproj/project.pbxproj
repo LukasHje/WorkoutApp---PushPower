@@ -8,12 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		76188B0C2CB4078F0051D8C6 /* PushPowerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76188B0B2CB4078F0051D8C6 /* PushPowerApp.swift */; };
-		76188B0E2CB4078F0051D8C6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76188B0D2CB4078F0051D8C6 /* ContentView.swift */; };
 		76188B102CB407900051D8C6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 76188B0F2CB407900051D8C6 /* Assets.xcassets */; };
 		76188B142CB407900051D8C6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 76188B132CB407900051D8C6 /* Preview Assets.xcassets */; };
 		76188B1E2CB407910051D8C6 /* PushPowerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76188B1D2CB407910051D8C6 /* PushPowerTests.swift */; };
 		76188B282CB407910051D8C6 /* PushPowerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76188B272CB407910051D8C6 /* PushPowerUITests.swift */; };
 		76188B2A2CB407910051D8C6 /* PushPowerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76188B292CB407910051D8C6 /* PushPowerUITestsLaunchTests.swift */; };
+		76188B372CB422220051D8C6 /* DialHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76188B362CB422220051D8C6 /* DialHeaderView.swift */; };
+		76188B392CB424970051D8C6 /* DialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76188B382CB424970051D8C6 /* DialView.swift */; };
+		76188B3C2CB43F790051D8C6 /* SpokesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76188B3B2CB43F790051D8C6 /* SpokesView.swift */; };
+		76188B3E2CB43F960051D8C6 /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76188B3D2CB43F960051D8C6 /* CircleView.swift */; };
+		76188B402CB43FA40051D8C6 /* Dial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76188B3F2CB43FA40051D8C6 /* Dial.swift */; };
+		76188B422CB4641E0051D8C6 /* StatTiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76188B412CB4641E0051D8C6 /* StatTiles.swift */; };
+		76188B442CB464580051D8C6 /* Buttons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76188B432CB464580051D8C6 /* Buttons.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +42,6 @@
 /* Begin PBXFileReference section */
 		76188B082CB4078F0051D8C6 /* PushPower.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PushPower.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		76188B0B2CB4078F0051D8C6 /* PushPowerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushPowerApp.swift; sourceTree = "<group>"; };
-		76188B0D2CB4078F0051D8C6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		76188B0F2CB407900051D8C6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		76188B112CB407900051D8C6 /* PushPower.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PushPower.entitlements; sourceTree = "<group>"; };
 		76188B132CB407900051D8C6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -45,6 +50,13 @@
 		76188B232CB407910051D8C6 /* PushPowerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PushPowerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		76188B272CB407910051D8C6 /* PushPowerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushPowerUITests.swift; sourceTree = "<group>"; };
 		76188B292CB407910051D8C6 /* PushPowerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushPowerUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		76188B362CB422220051D8C6 /* DialHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialHeaderView.swift; sourceTree = "<group>"; };
+		76188B382CB424970051D8C6 /* DialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialView.swift; sourceTree = "<group>"; };
+		76188B3B2CB43F790051D8C6 /* SpokesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpokesView.swift; sourceTree = "<group>"; };
+		76188B3D2CB43F960051D8C6 /* CircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
+		76188B3F2CB43FA40051D8C6 /* Dial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dial.swift; sourceTree = "<group>"; };
+		76188B412CB4641E0051D8C6 /* StatTiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatTiles.swift; sourceTree = "<group>"; };
+		76188B432CB464580051D8C6 /* Buttons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buttons.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,8 +107,8 @@
 		76188B0A2CB4078F0051D8C6 /* PushPower */ = {
 			isa = PBXGroup;
 			children = (
+				76188B3A2CB43F3A0051D8C6 /* Dial */,
 				76188B0B2CB4078F0051D8C6 /* PushPowerApp.swift */,
-				76188B0D2CB4078F0051D8C6 /* ContentView.swift */,
 				76188B0F2CB407900051D8C6 /* Assets.xcassets */,
 				76188B112CB407900051D8C6 /* PushPower.entitlements */,
 				76188B122CB407900051D8C6 /* Preview Content */,
@@ -127,6 +139,20 @@
 				76188B292CB407910051D8C6 /* PushPowerUITestsLaunchTests.swift */,
 			);
 			path = PushPowerUITests;
+			sourceTree = "<group>";
+		};
+		76188B3A2CB43F3A0051D8C6 /* Dial */ = {
+			isa = PBXGroup;
+			children = (
+				76188B382CB424970051D8C6 /* DialView.swift */,
+				76188B362CB422220051D8C6 /* DialHeaderView.swift */,
+				76188B3B2CB43F790051D8C6 /* SpokesView.swift */,
+				76188B3D2CB43F960051D8C6 /* CircleView.swift */,
+				76188B3F2CB43FA40051D8C6 /* Dial.swift */,
+				76188B412CB4641E0051D8C6 /* StatTiles.swift */,
+				76188B432CB464580051D8C6 /* Buttons.swift */,
+			);
+			path = Dial;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -259,8 +285,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				76188B0E2CB4078F0051D8C6 /* ContentView.swift in Sources */,
+				76188B372CB422220051D8C6 /* DialHeaderView.swift in Sources */,
+				76188B402CB43FA40051D8C6 /* Dial.swift in Sources */,
+				76188B3E2CB43F960051D8C6 /* CircleView.swift in Sources */,
+				76188B422CB4641E0051D8C6 /* StatTiles.swift in Sources */,
+				76188B392CB424970051D8C6 /* DialView.swift in Sources */,
 				76188B0C2CB4078F0051D8C6 /* PushPowerApp.swift in Sources */,
+				76188B3C2CB43F790051D8C6 /* SpokesView.swift in Sources */,
+				76188B442CB464580051D8C6 /* Buttons.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
