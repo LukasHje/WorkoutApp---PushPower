@@ -4,12 +4,18 @@
 //
 //  Created by Lukas Hjernquist on 2024-10-07.
 //
-
+import WidgetKit
 import SwiftUI
 
 struct DialView: View {
     
-    var input_pushups: Int = 35
+    @AppStorage("streak") var streak = 0
+    @AppStorage("daily_pushups") var daily_pushups = 0
+    
+    let data = DataService()
+    let rounder = MathRound()
+    
+    //rebase variables?
     var Kcal: Double = 0.33 //a single press-up burns vary from about 0.29 calories each to 0.36 calories. Avg≈0.33
     var time_to_completion: Double = 1.2
     
@@ -18,33 +24,51 @@ struct DialView: View {
             DialHeaderView(name: "Lukas", image: "avatar_panda")
                 .padding()
             
-            Dial(goal: 100, pushups: input_pushups)
+            Dial(goal: 100, pushups: daily_pushups)
                 .padding()
             
+            HStack {
+                Button(action: {
+                    daily_pushups += 1
+                    //somthing else
+                }, label: {
+                    VStack {
+                        Image("Pushups")
+                            .resizable()
+                            .scaledToFit()
+                            .clipShape(RoundedRectangle(cornerRadius: 15))
+                            .frame(width: 50)
+                        //Text("Submit")
+                            .font(.title)
+                            .foregroundColor(.white)
+                    }
+                    .foregroundColor(Color.foregroundDeepBlue)
+                    .padding()
+                    .background(
+                        RoundedRectangle(cornerRadius: 15).fill(Color.foregroundRed)
+                            .shadow(color: .foregroundGray, radius: 3, x: 6, y: 6)
+                            .shadow(color: .white, radius: 3, x: -6, y: -6)
+                            .frame(width: 175)
+                    )
+                })
+            }
+            .padding()
+            
             HStack(spacing: 30) {
-                SubmitTile()
-                StatTile(image: "flame.fill", value: String(Double(input_pushups) * Kcal), measurment: "Kcal")
+                StatTile(image: "flame.fill", value: String(rounder.preciseRound(Double(daily_pushups) * Kcal, precision: .hundredths)), measurment: "Kcal")
                 StatTile(image: "clock.fill", value: String(time_to_completion) + "h", measurment: "Time")
             }
         }
         .padding()
         .background(Color.backgroundGray)
-        
-        HStack {
-            NavigationTiles(image: "house.fill", text: "start")
-            NavigationTiles(image: "chart.bar.fill", text: "history")
-            NavigationTiles(image: "", text: "Achievements")
-            NavigationTiles(image: "chart.bar.fill", text: "Settings")
-        }
-        .background(Color.foregroundDeepBlue)
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        DialView()
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        DialView()
+//    }
+//}
 
 extension Color {
     

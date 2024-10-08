@@ -16,7 +16,7 @@ struct Dial: View {
     var body: some View {
         ZStack {
             SpokesView()
-                .padding(40)
+                .padding()
             CircleView()
             
             ZStack {
@@ -28,7 +28,7 @@ struct Dial: View {
                 
                 Circle()
                     .trim(from: 0, to: CGFloat(pushups) / CGFloat(goal))
-                    .scale(x: -1)
+                    .scale(x: -1) //, y:-1 //dev notes: makes the progress-bar start right-side instead of left-side
                     .rotation(.degrees(90))
                     .stroke(style: StrokeStyle(lineWidth: 12, lineCap: .butt))
                     .padding(20)
