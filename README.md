@@ -12,4 +12,4 @@
 <br>
 
 ### 1st idéa for Homepage:
-![Screenshot of the first page in the application.](https://github.com/LukasHje/WorkoutApp---PushPower/blob/main/idea1.png)
+![Screenshot of the first page in the application.](https://github.com/LukasHje/WorkoutApp---PushPower/blob/main/idea1%20tabs.png)
