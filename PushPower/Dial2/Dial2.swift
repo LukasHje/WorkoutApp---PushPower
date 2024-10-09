@@ -1,27 +1,25 @@
 //
-//  Dial.swift
+//  Dial2.swift
 //  PushPower
 //
-//  Created by Lukas Hjernquist on 2024-10-07.
+//  Created by Lukas Hjernquist on 2024-10-09.
 //
 
 import Foundation
 import SwiftUI
 
-struct Dial: View {
+struct Dial2: View {
     
     let goal: Int
     let pushups: Int
     
     var body: some View {
         ZStack {
-            SpokesView()
-                .padding(10)
-            CircleView()
+            Circle2V()
             //    .padding() // spokes or no spokes...
             
             ZStack {
-                CircleView()
+                Circle2V()
                 
                 Circle().stroke(style: StrokeStyle(lineWidth: 12))
                     .padding(20)
@@ -50,6 +48,6 @@ struct Dial: View {
             .padding()
             
         }
-        .foregroundColor(Color.backgroundDeepGray)
+        .foregroundColor(Color.OxfordBlue)
     }
 }

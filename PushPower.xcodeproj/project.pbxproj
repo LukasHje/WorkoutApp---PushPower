@@ -24,6 +24,12 @@
 		76AA627D2CB54399005049DF /* AchievementsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AA627C2CB54399005049DF /* AchievementsView.swift */; };
 		76AA627F2CB543C4005049DF /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AA627E2CB543C4005049DF /* UserView.swift */; };
 		76AA62842CB552B1005049DF /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AA62832CB552B1005049DF /* DataService.swift */; };
+		76E628FA2CB71B2A00FB1AC9 /* Dial2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E628F92CB71B2A00FB1AC9 /* Dial2View.swift */; };
+		76E628FC2CB71B8500FB1AC9 /* Dial2HV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E628FB2CB71B8500FB1AC9 /* Dial2HV.swift */; };
+		76E628FE2CB71EA500FB1AC9 /* Dial2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E628FD2CB71EA500FB1AC9 /* Dial2.swift */; };
+		76E629002CB71EDA00FB1AC9 /* Circle2V.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E628FF2CB71EDA00FB1AC9 /* Circle2V.swift */; };
+		76E629022CB71F1400FB1AC9 /* StatTile2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E629012CB71F1400FB1AC9 /* StatTile2.swift */; };
+		76E629042CB73B7600FB1AC9 /* UserInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E629032CB73B7600FB1AC9 /* UserInputView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +71,12 @@
 		76AA627C2CB54399005049DF /* AchievementsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementsView.swift; sourceTree = "<group>"; };
 		76AA627E2CB543C4005049DF /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
 		76AA62832CB552B1005049DF /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
+		76E628F92CB71B2A00FB1AC9 /* Dial2View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dial2View.swift; sourceTree = "<group>"; };
+		76E628FB2CB71B8500FB1AC9 /* Dial2HV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dial2HV.swift; sourceTree = "<group>"; };
+		76E628FD2CB71EA500FB1AC9 /* Dial2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dial2.swift; sourceTree = "<group>"; };
+		76E628FF2CB71EDA00FB1AC9 /* Circle2V.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Circle2V.swift; sourceTree = "<group>"; };
+		76E629012CB71F1400FB1AC9 /* StatTile2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatTile2.swift; sourceTree = "<group>"; };
+		76E629032CB73B7600FB1AC9 /* UserInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInputView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +130,7 @@
 				76AA62782CB5422D005049DF /* ContentView.swift */,
 				76AA62832CB552B1005049DF /* DataService.swift */,
 				76188B0B2CB4078F0051D8C6 /* PushPowerApp.swift */,
+				76E628F82CB71AF300FB1AC9 /* Dial2 */,
 				76188B3A2CB43F3A0051D8C6 /* Dial */,
 				76AA62802CB54BBB005049DF /* Statistics */,
 				76AA62812CB54BC9005049DF /* Achievements */,
@@ -162,6 +175,7 @@
 				76188B3F2CB43FA40051D8C6 /* Dial.swift */,
 				76188B3B2CB43F790051D8C6 /* SpokesView.swift */,
 				76188B3D2CB43F960051D8C6 /* CircleView.swift */,
+				76E629032CB73B7600FB1AC9 /* UserInputView.swift */,
 				76188B412CB4641E0051D8C6 /* StatTiles.swift */,
 			);
 			path = Dial;
@@ -189,6 +203,18 @@
 				76AA627E2CB543C4005049DF /* UserView.swift */,
 			);
 			path = User;
+			sourceTree = "<group>";
+		};
+		76E628F82CB71AF300FB1AC9 /* Dial2 */ = {
+			isa = PBXGroup;
+			children = (
+				76E628F92CB71B2A00FB1AC9 /* Dial2View.swift */,
+				76E628FB2CB71B8500FB1AC9 /* Dial2HV.swift */,
+				76E628FD2CB71EA500FB1AC9 /* Dial2.swift */,
+				76E628FF2CB71EDA00FB1AC9 /* Circle2V.swift */,
+				76E629012CB71F1400FB1AC9 /* StatTile2.swift */,
+			);
+			path = Dial2;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -324,14 +350,20 @@
 				76AA62792CB5422D005049DF /* ContentView.swift in Sources */,
 				76AA62842CB552B1005049DF /* DataService.swift in Sources */,
 				76AA627B2CB54323005049DF /* StatisticsView.swift in Sources */,
+				76E629002CB71EDA00FB1AC9 /* Circle2V.swift in Sources */,
 				76188B372CB422220051D8C6 /* DialHeaderView.swift in Sources */,
+				76E628FC2CB71B8500FB1AC9 /* Dial2HV.swift in Sources */,
 				76188B402CB43FA40051D8C6 /* Dial.swift in Sources */,
 				76188B3E2CB43F960051D8C6 /* CircleView.swift in Sources */,
 				76AA627D2CB54399005049DF /* AchievementsView.swift in Sources */,
+				76E628FE2CB71EA500FB1AC9 /* Dial2.swift in Sources */,
+				76E629042CB73B7600FB1AC9 /* UserInputView.swift in Sources */,
 				76188B422CB4641E0051D8C6 /* StatTiles.swift in Sources */,
 				76AA627F2CB543C4005049DF /* UserView.swift in Sources */,
 				76188B392CB424970051D8C6 /* DialView.swift in Sources */,
+				76E629022CB71F1400FB1AC9 /* StatTile2.swift in Sources */,
 				76188B0C2CB4078F0051D8C6 /* PushPowerApp.swift in Sources */,
+				76E628FA2CB71B2A00FB1AC9 /* Dial2View.swift in Sources */,
 				76188B3C2CB43F790051D8C6 /* SpokesView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -491,6 +523,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -509,10 +542,12 @@
 				PRODUCT_BUNDLE_IDENTIFIER = LCL.PushPower;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -529,6 +564,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -547,10 +583,12 @@
 				PRODUCT_BUNDLE_IDENTIFIER = LCL.PushPower;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
