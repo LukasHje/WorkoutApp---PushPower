@@ -16,11 +16,11 @@ struct ContentView: View {
                         Image(systemName: "house")
                         Text("Home")
                     }
-                Dial2View()
-                    .tabItem() {
-                        Image(systemName: "testtube.2")
-                        Text("concept2")
-                    }
+//                Dial2View()
+//                    .tabItem() {
+//                        Image(systemName: "testtube.2")
+//                        Text("concept2")
+//                    }
                 StatisticsView()
                     .tabItem() {
                         Image(systemName: "chart.bar.fill")
