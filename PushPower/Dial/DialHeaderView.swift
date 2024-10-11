@@ -42,7 +42,7 @@ struct DialHeaderView: View {
     // Function to return different text based on the statusCode
     func getStatusText(_ statusCode: Int) -> String {
         switch statusCode {
-                case 1..<50:
+                case 2..<50:
                     return "Keep going! You're \(statusCode)% there! 💪"
                 case 50..<75:
                     return "Great work! You're halfway there! \(statusCode)% done! 🎯"
@@ -51,6 +51,7 @@ struct DialHeaderView: View {
                 case 100:
                     return "Awesome! You reached your goal! 🎉 💪"
                 default:
+                    print("DialHeaderView - completionPercentage tracker: \(statusCode)")
                     return "Let's get strong! 💪"
         }
     }

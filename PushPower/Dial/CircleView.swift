@@ -16,7 +16,9 @@ struct CircleView: View {
     private let highlightColor: Color = .white
     
     var body: some View {
-        Circle().fill(Color.backgroundGray)
+        Circle()
+            .fill(Color.backgroundGray)
+            //.background(Color.red.opacity(0.2)) // Temporary background to debug
             .shadow(color:shadowColor, radius: shadowRadius, x: shadowOffset, y: shadowOffset)
             .shadow(color:highlightColor, radius: shadowRadius, x: -shadowOffset/2, y: -shadowOffset/2)
     }

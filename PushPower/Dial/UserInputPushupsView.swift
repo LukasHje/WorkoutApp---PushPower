@@ -1,5 +1,5 @@
 //
-//  UserInputView.swift
+//  UserInputPushupsView.swift
 //  PushPower
 //
 //  Created by Lukas Hjernquist on 2024-10-10.
@@ -11,7 +11,11 @@ import SwiftUI
 struct UserInputPushupsView: View {
     
     @Binding var isPresented: Bool
-    @State private var pushupCount: Int = 0 // Example state for user input
+    
+    @AppStorage("daily_pushups") var daily_pushups: Int = 0 // Directly use @AppStorage for daily_pushups
+    
+    @State private var newPushupCount: Int = 0 // Example state for user input
+    
     let data = DataManager()
     
     var body: some View {
@@ -20,20 +24,18 @@ struct UserInputPushupsView: View {
                 .foregroundColor(Color.foregroundDeepBlue)
                 .padding(15)
 
-            TextField("Pushups", value: $pushupCount, formatter: NumberFormatter())
+            TextField("Pushups", value: $newPushupCount, formatter: NumberFormatter())
                 .keyboardType(.numberPad)
                 .padding(15)
                 .background(Color.gray.opacity(0.2))
                 .cornerRadius(5)
             
             Button(action: {
-                // Do something with pushupCount, like saving it
-//                if let number = Int(inputValue) {
-//                    DataManager().log_dp(user_input: number)
-//                } else {
-//                    numberValue = nil // Handle the case where conversion fails
-//                }
-                data.log_dp(user_input: pushupCount)
+                // Log the new pushups via DataManager and update @AppStorage
+                data.log_dailyPushups(dailyPushups: newPushupCount)
+                
+                // SwiftUI automatically updates @AppStorage value, reflecting in other views
+                print("Updated daily_pushups: \(daily_pushups)") // Debugging print statement
                 
                 // Dismiss the sheet
                 isPresented = false
@@ -53,11 +55,6 @@ struct UserInputPushupsView: View {
                         .shadow(color: .white, radius: 3, x: -6, y: -6)
                         .frame(width: 70, height: 70)
                 )
-//                Text("Submit")
-//                    .padding()
-//                    .background(Color.foregroundRed)
-//                    .foregroundColor(.white)
-//                    .cornerRadius(10)
             }
         }
         .padding(80)
@@ -68,6 +65,9 @@ struct UserInputPushupsView: View {
 struct UserResetDailyPushupsView: View {
     
     @Binding var isPresented: Bool
+    
+    @AppStorage("daily_pushups") var daily_pushups: Int = 0 // Directly use @AppStorage for daily_pushups
+    
     let data = DataManager()
     
     var body: some View {
@@ -79,8 +79,11 @@ struct UserResetDailyPushupsView: View {
                 .padding(15)
             HStack(spacing: 40) {
                 Button(action: {
-                    //user accepts to reset daily pushups counter
-                    data.reset_dp()
+                    // Log the reset of pushups via DataManager and update @AppStorage
+                    data.reset_dailyPushups(resetValue: 0) // Persist the reset of dailyPushups
+                    
+                    // SwiftUI automatically updates @AppStorage value, reflecting in other views
+                    print("Updated daily_pushups: \(daily_pushups)") // Debugging print statement
                     
                     // Dismiss the sheet
                     isPresented = false
@@ -102,7 +105,7 @@ struct UserResetDailyPushupsView: View {
                 }
                 
                 Button(action: {
-                    // User rejects to reset daily pushups counter
+                    // User rejects to reset daily pushups counter: No action and we return to the DialView()
                     // Dismiss the sheet
                     isPresented = false
                 }) {

@@ -10,31 +10,34 @@ import SwiftUI
 
 struct AchievementsView: View {
     
-    let emoji1: String = "🏗️"
-    let emoji2: String = "🏆"
+    @AppStorage("achievement_unlocked") private var achievementUnlocked = false
+
     
     var body: some View {
         VStack {
-            HStack(alignment: .top) {
-                VStack(alignment: .leading, spacing: 20) {
-                    Text("\(emoji2) Achievements!")
-                        .foregroundColor(Color.foregroundDeepBlue)
-                        .font(.title)
-                        .fontWeight(.semibold)
-                        .multilineTextAlignment(.leading)
-                    Text("will be here shortly... \(emoji1)")
-                        .foregroundColor(Color.foregroundDeepBlue)
-                }
-                
-                Spacer()
-                
-                Image("Pushups")
-                    .resizable()
-                    .scaledToFit()
-                    .clipShape(RoundedRectangle(cornerRadius: 15))
-                    .frame(width: 50)
+            Text("Achievements")
+               .font(.title)
+           
+            if achievementUnlocked {
+                Text("🏆 My First Day - Unlocked!")
+            } else {
+                Text("🔒 My First Day")
             }
-            .foregroundColor(.accentColor)
+            
+            if achievementUnlocked {
+                Text("🏆 Completed my First Goal - Unlocked!")
+            } else {
+                Text("🔒 Completed my First Goal")
+            }
+            
+           if achievementUnlocked {
+               Text("🏆 Three-Day Streak Unlocked!")
+           } else {
+               Text("🔒 Three-Day Streak")
+           }
+            
+           
+           // Add more achievements here...
         }
         .padding()
         .background(Color.backgroundGray)

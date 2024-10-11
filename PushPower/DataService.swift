@@ -10,39 +10,35 @@ import SwiftUI
 
 struct DataManager {
     
-    @AppStorage("streak") private var streak = 0
-    @AppStorage("daily_pushups") private var daily_pushups = 0
+    @AppStorage("streak") private var storedStreak = 0
+    @AppStorage("daily_pushups") private var storedDailyPushups = 0
+    @AppStorage("current_goal") var StoreCurrentGoal = 100
   
-    func log_streak() {
-        streak += 1 //dev notes: for testing the functionality
+    func log_streak(streak: Int) {
+        storedStreak += streak
+        print("DataManager - updated streak: \(storedStreak)")
+    }
+    
+    func reset_streak(resetValue: Int) {
+        storedStreak = resetValue
     }
     
     func progress_streak() -> Int {
-        return streak
+        return storedStreak
     }
     
-    func log_dp(user_input: Int) {
-        daily_pushups += user_input
+    func log_dailyPushups(dailyPushups: Int) {
+        storedDailyPushups += dailyPushups
+        print("DataManager - updated daily_pushups: \(storedDailyPushups)")
     }
     
-    func reset_dp() {
-        daily_pushups = 0
+    func reset_dailyPushups(resetValue: Int) {
+        storedDailyPushups = resetValue
     }
     
-    func progress_dp() -> Int {
-        return daily_pushups
+    func progress_dailyPushups() -> Int {
+        return storedDailyPushups
     }
-}
-
-struct CompareEntry {
-    
-    func checkLastEntryDate() {
-        //IF last_entry (where last_entry is not Date()) and last_entry = Date() - 1 then (date should be in truncated format: 'YYYY-MM-DD')
-        if(true) {
-            DataManager().log_streak()
-        }
-    }
-    
 }
 
 struct MathRound {

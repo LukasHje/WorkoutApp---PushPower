@@ -38,7 +38,6 @@ struct ContentView: View {
                     }
             }
         }
-        .foregroundColor(Color.backgroundBlack)
     }
 }
 
@@ -53,7 +52,6 @@ extension Color {
     
     //Objetive-C only takes values between 0 and 1.0. RGB values gets devided by 255.
     static let backgroundGray = Color(red: 234/255, green: 235/255, blue: 239/255)
-    static let backgroundBlack = Color(red: 0, green: 0, blue: 0)
     static let backgroundDeepGray = Color(red: 170/255, green: 170/255, blue: 170/255)
     static let foregroundGray = Color(red: 215/255, green: 215/255, blue: 215/255)
     static let foregroundRed = Color(red: 255/255, green: 87/255, blue: 51/255)
