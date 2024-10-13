@@ -41,6 +41,7 @@ struct DialHeaderView: View {
     
     // Function to return different text based on the statusCode
     func getStatusText(_ statusCode: Int) -> String {
+        print("Current statusCode: \(statusCode)") // Debugging
         switch statusCode {
                 case 2..<50:
                     return "Keep going! You're \(statusCode)% there! 💪"

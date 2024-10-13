@@ -12,9 +12,22 @@ struct DialView: View {
     @Environment(\.scenePhase) var scenePhase
     
     // Tracking achievements using @AppStorage
-    @AppStorage("threeDayStreakAchieved") private var threeDayStreakAchieved = false
-    @AppStorage("myFirstDayAchieved") private var myFirstDayAchieved = false
+    //New player achievment
+    @AppStorage("aJourneyBegins") private var aJourneyBegins = false
+    // Pushup milestones
     @AppStorage("firstGoalAchieved") private var firstGoalAchieved = false
+    @AppStorage("100GoalAchieved") private var oneHundredGoalAchieved = false
+    @AppStorage("200GoalAchieved") private var twoHundredGoalAchieved = false
+    @AppStorage("300GoalAchieved") private var threeHundredGoalAchieved = false
+    @AppStorage("400GoalAchieved") private var fourHundredGoalAchieved = false
+    @AppStorage("500GoalAchieved") private var fiveHundredGoalAchieved = false
+    @AppStorage("600GoalAchieved") private var sixHundredGoalAchieved = false
+    @AppStorage("700GoalAchieved") private var sevenHundredGoalAchieved = false
+    @AppStorage("800GoalAchieved") private var eightHundredGoalAchieved = false
+    @AppStorage("900GoalAchieved") private var nineHundredGoalAchieved = false
+    @AppStorage("1000GoalAchieved") private var thousandGoalAchieved = false
+    // Streak milestones
+    @AppStorage("threeDayStreakAchieved") private var threeDayStreakAchieved = false
     
     @AppStorage("last_reset_date") var lastResetDate: String = ""
     @AppStorage("last_completion_date") var lastCompletionDate: String = ""
@@ -24,31 +37,23 @@ struct DialView: View {
     @AppStorage("daily_pushups") private var storedDailyPushups = 0
     @AppStorage("current_goal") var storedCurrentGoal = 100
     
-
-    // State variables to track the current session values
-    @State private var streak: Int = 0
-    @State private var daily_pushups: Int = 0
-    @State private var current_goal: Int = 100
-    
+    //show input-form or achievment-popup
     @State private var showUserInput = false
-    @State private var showUserResetDailyPushups = false
+    @State private var showAchievementPopup = false
     
+    @State private var achievementText = ""
     @State private var completionTime: String = "N/A"
     @State private var goalReached = false
     
-    @State private var showAchievementPopup = false
-    @State private var achievementText = ""
+    @State private var buttonScale: CGFloat = 1.0 // Track the button's scale for animation
     
+    private var Kcal: Double = 0.33
+    
+    //instanciate DataServices: to persist values,
+    //instanciate math function: to round values
     let data = DataManager()
     let rounder = MathRound()
 
-    var Kcal: Double = 0.33
-
-    var completionPercentage: Int {
-        let adjustedStreak = max(1, storedStreak) // Ensure streak starts from at least 1
-        guard storedCurrentGoal > 0 else { return 0 } // Avoid division by zero
-        return min(100, (adjustedStreak * 100) / storedCurrentGoal)
-    }
     
     var body: some View {
         ZStack {
@@ -57,37 +62,78 @@ struct DialView: View {
                 .edgesIgnoringSafeArea(.all) // This will extend the background across the entire screen
             
             VStack {
+                // Compute the completion percentage directly in the body
+                let completionPercentage = min(100, (storedDailyPushups * 100) / storedCurrentGoal)
+                
                 DialHeaderView(name: "Lukas", image: "avatar_panda", statusCode: completionPercentage)
                     .padding()
                     .frame(maxWidth: .infinity) // Allow it to expand horizontally
                 
-                Dial(goal: storedCurrentGoal, pushups: storedDailyPushups)
-                    .padding()
-                    .frame(maxWidth: .infinity, maxHeight: .infinity) // Allow it to fill available space
-                
-                HStack(spacing: 70) {
+                ZStack {
+                    Dial(goal: storedCurrentGoal, pushups: storedDailyPushups)
+                        .padding()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity) // Allow it to fill available space
+                        .zIndex(0)
+                    
                     Button(action: {
-                        showUserInput = true
-                        logStartTimeIfNeeded()
-                        logCompletionTime()
-                        logPushupCompletion()
-                    }, label: {
-                        VStack {
-                            Image("Pushups")
-                                .resizable()
-                                .scaledToFit()
-                                .clipShape(RoundedRectangle(cornerRadius: 15))
-                                .frame(width: 50)
+                        // Start bouncing animation
+                        withAnimation(Animation.interpolatingSpring(stiffness: 100, damping: 5)) {
+                            buttonScale = 1.3 // Increase the button scale for a larger bounce
                         }
-                        .foregroundColor(Color.foregroundDeepBlue)
-                        .padding(5)
+                        
+                        // Reset scale back to normal after a slight delay
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+                            withAnimation(Animation.spring(response: 0.3, dampingFraction: 0.5, blendDuration: 0)) {
+                                buttonScale = 1.0 // Reset back to original scale
+                            }
+                        }
+                        
+                        // Delay sheet presentation slightly to allow the animation to complete
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                            // Preforms button actions
+                            showUserInput = true
+                            logStartTimeIfNeeded()
+                            logCompletionTime()
+                            logPushupCompletion()
+                        }
+                    }, label: {
+//                            VStack {
+//                                Image("Pushups")
+//                                    .resizable()
+//                                    .scaledToFit()
+//                                    .clipShape(RoundedRectangle(cornerRadius: 15))
+//                                    .frame(width: 50)
+//                            }
+//                            .foregroundColor(Color.foregroundDeepBlue)
+//                            .padding(5)
+//                            .background(
+//                                RoundedRectangle(cornerRadius: 15).fill(Color.foregroundYellow)
+//                                    .shadow(color: .foregroundGray, radius: 3, x: 6, y: 6)
+//                                    .shadow(color: .white, radius: 3, x: -6, y: -6)
+//                                    .frame(width: 130, height: 60)
+//                            )
+                        // Text elements in the center
+                        VStack {
+                            Text("Goal: \(storedCurrentGoal)")
+                                .foregroundColor(Color.foregroundDeepBlue)
+                            Text("\(storedDailyPushups)")
+                                .foregroundColor(Color.foregroundYellow)
+                                .font(.title)
+                                .bold()
+                                .padding()
+                            Text("Pushups")
+                                .foregroundColor(Color.foregroundDeepBlue)
+                        }
+                        .padding(50) // Add padding inside the button
                         .background(
-                            RoundedRectangle(cornerRadius: 15).fill(Color.foregroundYellow)
-                                .shadow(color: .foregroundGray, radius: 3, x: 6, y: 6)
-                                .shadow(color: .white, radius: 3, x: -6, y: -6)
-                                .frame(width: 130, height: 60)
+                            Circle() // Make the button circular
+                                .fill(Color.backgroundGray)
+                                //.shadow(color: .foregroundGray, radius: 3, x: -1, y: -1)
+                                //.shadow(color: .white, radius: 3, x: -1, y: -1)
+                                //.frame(width: 130, height: 130) // Control the size of the circular button
                         )
                     })
+                    .zIndex(1)
                     .fullScreenCover(isPresented: $showUserInput) {
                         ZStack {
                             Color.backgroundGray
@@ -95,39 +141,11 @@ struct DialView: View {
                             UserInputPushupsView(isPresented: $showUserInput)
                         }
                     }
-                    
-                    Button(action: {
-                        showUserResetDailyPushups = true
-                        resetStartTime()
-                    }, label: {
-                        VStack {
-                            Image(systemName: "trash.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 30, height: 30)
-                                .foregroundColor(Color.backgroundGray)
-                        }
-                        .padding(5)
-                        .background(
-                            RoundedRectangle(cornerRadius: 15).fill(Color.foregroundGray)
-                                .shadow(color: .foregroundGray, radius: 3, x: 6, y: 6)
-                                .shadow(color: .white, radius: 3, x: -6, y: -6)
-                                .frame(width: 75, height: 60)
-                        )
-                    })
-                    .fullScreenCover(isPresented: $showUserResetDailyPushups) {
-                        ZStack {
-                            Color.backgroundGray
-                                .edgesIgnoringSafeArea(.all)
-                            UserResetDailyPushupsView(isPresented: $showUserResetDailyPushups)
-                        }
-                    }
                 }
-                .padding()
-                .frame(maxWidth: .infinity)
                 
-                HStack(spacing: 50) {
-                    StatTileCalBurnt(image: "flame.fill", value: String(rounder.preciseRound(Double(daily_pushups) * Kcal, precision: .hundredths)), measurment: "Kcal")
+                
+                HStack(spacing: 25) {
+                    StatTileCalBurnt(image: "flame.fill", value: String(rounder.preciseRound(Double(storedDailyPushups) * Kcal, precision: .hundredths)), measurment: "Kcal")
                         .frame(width: 100, height: 100)
                     StatTileTimeElapsed(image: "clock.fill", value: completionTime, measurment: "Time")
                         .frame(width: 150, height: 100)
@@ -186,15 +204,12 @@ struct DialView: View {
             
             // Now that streak and goal status are updated, check for achievements
             checkForAchievement()
-            
-            // Reset start time after goal completion
-            resetStartTime()
         }
     }
     
     enum Achievement: String {
         case threeDayStreak = "Three Day Streak"
-        case myFirstDay = "My First Day"
+        case aJourneyBegins = "My First Day"
         case firstGoal = "Completed my First Goal"
         // Add more achievements here as needed
     }
@@ -209,8 +224,8 @@ struct DialView: View {
         }
         
         // Check for "My First Day" achievement (first time user hits a streak of 1)
-        if storedStreak == 1 && !myFirstDayAchieved {
-            unlockAchievement(.myFirstDay)
+        if storedStreak == 0 && storedDailyPushups > 0 && !aJourneyBegins {
+            unlockAchievement(.aJourneyBegins)
         }
         
         // Check for "Completed First Goal" achievement
@@ -226,8 +241,8 @@ struct DialView: View {
         switch achievement {
         case .threeDayStreak:
             threeDayStreakAchieved = true
-        case .myFirstDay:
-            myFirstDayAchieved = true
+        case .aJourneyBegins:
+            aJourneyBegins = true
         case .firstGoal:
             firstGoalAchieved = true
         }
@@ -241,7 +256,6 @@ struct DialView: View {
             showAchievementPopup = false
         }
     }
-    
     
     func resetDailyPushupsIfNeeded() {
         let today = getCurrentDateString()
@@ -262,6 +276,14 @@ struct DialView: View {
         }
     }
     
+    // Function to reset start time. Which also will reset Completion_Time and KcalBurned
+    func resetStartTime() {
+        startTime = ""
+        
+        // Reset completion time
+        completionTime = "N/A"
+    }
+    
     func logCompletionTime() {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
@@ -275,20 +297,23 @@ struct DialView: View {
             let minutes = (Int(timeInterval) % 3600) / 60
             let seconds = Int(timeInterval) % 60
             
-            let timeString = String(format: "%02dh %02dm %02ds", hours, minutes, seconds)
-            completionTime = timeString // Update local state
+            // Format based on whether it's over an hour or less
+            if hours > 0 {
+                // If time exceeds 1 hour, show hours with minutes as decimal
+                let decimalMinutes = Double(minutes) / 60.0
+                let timeString = String(format: "%.2fh", Double(hours) + decimalMinutes)
+                completionTime = timeString // Update local state
+            } else {
+                // If time is below 1 hour, show minutes with seconds as decimal
+                let decimalSeconds = Double(seconds) / 60.0
+                let timeString = String(format: "%.2fm", Double(minutes) + decimalSeconds)
+                completionTime = timeString // Update local state
+            }
         } else {
             completionTime = "N/A" // If no valid start time is found
         }
     }
-    
-    // Function to reset start time. Which also will reset Completion_Time and KcalBurned
-    func resetStartTime() {
-        startTime = ""
-        
-        // Reset completion time
-        completionTime = "N/A"
-    }
+
 
     // Helper functions to get the current date as a string and convert from string to date
     func getCurrentDateString() -> String {
@@ -312,5 +337,11 @@ struct DialView: View {
 
 }
 
-
+//dev notes: Used for debugging
+func resetAppStorage() {
+    if let appDomain = Bundle.main.bundleIdentifier {
+        UserDefaults.standard.removePersistentDomain(forName: appDomain)
+        print("AppStorage reset for all keys")
+    }
+}
 

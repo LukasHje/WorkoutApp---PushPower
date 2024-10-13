@@ -11,7 +11,7 @@ import SwiftUI
 struct PushPowerApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView() // Your main SwiftUI view
         }
     }
 }

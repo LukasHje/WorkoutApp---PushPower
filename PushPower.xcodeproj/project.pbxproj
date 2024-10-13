@@ -22,8 +22,8 @@
 		76AA62792CB5422D005049DF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AA62782CB5422D005049DF /* ContentView.swift */; };
 		76AA627B2CB54323005049DF /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AA627A2CB54323005049DF /* StatisticsView.swift */; };
 		76AA627D2CB54399005049DF /* AchievementsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AA627C2CB54399005049DF /* AchievementsView.swift */; };
-		76AA627F2CB543C4005049DF /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AA627E2CB543C4005049DF /* UserView.swift */; };
 		76AA62842CB552B1005049DF /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AA62832CB552B1005049DF /* DataService.swift */; };
+		76D967572CBB789100F9C463 /* AchievementsGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D967562CBB789100F9C463 /* AchievementsGridView.swift */; };
 		76E628FA2CB71B2A00FB1AC9 /* Dial2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E628F92CB71B2A00FB1AC9 /* Dial2View.swift */; };
 		76E628FC2CB71B8500FB1AC9 /* Dial2HV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E628FB2CB71B8500FB1AC9 /* Dial2HV.swift */; };
 		76E628FE2CB71EA500FB1AC9 /* Dial2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E628FD2CB71EA500FB1AC9 /* Dial2.swift */; };
@@ -69,8 +69,9 @@
 		76AA62782CB5422D005049DF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		76AA627A2CB54323005049DF /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
 		76AA627C2CB54399005049DF /* AchievementsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementsView.swift; sourceTree = "<group>"; };
-		76AA627E2CB543C4005049DF /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
 		76AA62832CB552B1005049DF /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
+		76D967512CBB521E00F9C463 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		76D967562CBB789100F9C463 /* AchievementsGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementsGridView.swift; sourceTree = "<group>"; };
 		76E628F92CB71B2A00FB1AC9 /* Dial2View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dial2View.swift; sourceTree = "<group>"; };
 		76E628FB2CB71B8500FB1AC9 /* Dial2HV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dial2HV.swift; sourceTree = "<group>"; };
 		76E628FD2CB71EA500FB1AC9 /* Dial2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dial2.swift; sourceTree = "<group>"; };
@@ -127,6 +128,7 @@
 		76188B0A2CB4078F0051D8C6 /* PushPower */ = {
 			isa = PBXGroup;
 			children = (
+				76D967512CBB521E00F9C463 /* Info.plist */,
 				76AA62782CB5422D005049DF /* ContentView.swift */,
 				76AA62832CB552B1005049DF /* DataService.swift */,
 				76188B0B2CB4078F0051D8C6 /* PushPowerApp.swift */,
@@ -134,7 +136,6 @@
 				76188B3A2CB43F3A0051D8C6 /* Dial */,
 				76AA62802CB54BBB005049DF /* Statistics */,
 				76AA62812CB54BC9005049DF /* Achievements */,
-				76AA62822CB54BF8005049DF /* User */,
 				76188B0F2CB407900051D8C6 /* Assets.xcassets */,
 				76188B112CB407900051D8C6 /* PushPower.entitlements */,
 				76188B122CB407900051D8C6 /* Preview Content */,
@@ -193,16 +194,9 @@
 			isa = PBXGroup;
 			children = (
 				76AA627C2CB54399005049DF /* AchievementsView.swift */,
+				76D967562CBB789100F9C463 /* AchievementsGridView.swift */,
 			);
 			path = Achievements;
-			sourceTree = "<group>";
-		};
-		76AA62822CB54BF8005049DF /* User */ = {
-			isa = PBXGroup;
-			children = (
-				76AA627E2CB543C4005049DF /* UserView.swift */,
-			);
-			path = User;
 			sourceTree = "<group>";
 		};
 		76E628F82CB71AF300FB1AC9 /* Dial2 */ = {
@@ -359,11 +353,11 @@
 				76E628FE2CB71EA500FB1AC9 /* Dial2.swift in Sources */,
 				76E629042CB73B7600FB1AC9 /* UserInputPushupsView.swift in Sources */,
 				76188B422CB4641E0051D8C6 /* StatTiles.swift in Sources */,
-				76AA627F2CB543C4005049DF /* UserView.swift in Sources */,
 				76188B392CB424970051D8C6 /* DialView.swift in Sources */,
 				76E629022CB71F1400FB1AC9 /* StatTile2.swift in Sources */,
 				76188B0C2CB4078F0051D8C6 /* PushPowerApp.swift in Sources */,
 				76E628FA2CB71B2A00FB1AC9 /* Dial2View.swift in Sources */,
+				76D967572CBB789100F9C463 /* AchievementsGridView.swift in Sources */,
 				76188B3C2CB43F790051D8C6 /* SpokesView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

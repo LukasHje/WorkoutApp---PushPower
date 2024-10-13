@@ -9,12 +9,10 @@ import Foundation
 import SwiftUI
 
 struct UserInputPushupsView: View {
-    
     @Binding var isPresented: Bool
     
-    @AppStorage("daily_pushups") var daily_pushups: Int = 0 // Directly use @AppStorage for daily_pushups
-    
-    @State private var newPushupCount: Int = 0 // Example state for user input
+    @State var showUserValidateDailyPushups = false
+    @State var newPushupCount: Int = 0 // User input
     
     let data = DataManager()
     
@@ -23,7 +21,7 @@ struct UserInputPushupsView: View {
             Text("Pushups performed...")
                 .foregroundColor(Color.foregroundDeepBlue)
                 .padding(15)
-
+            
             TextField("Pushups", value: $newPushupCount, formatter: NumberFormatter())
                 .keyboardType(.numberPad)
                 .padding(15)
@@ -31,15 +29,8 @@ struct UserInputPushupsView: View {
                 .cornerRadius(5)
             
             Button(action: {
-                // Log the new pushups via DataManager and update @AppStorage
-                data.log_dailyPushups(dailyPushups: newPushupCount)
-                
-                // SwiftUI automatically updates @AppStorage value, reflecting in other views
-                print("Updated daily_pushups: \(daily_pushups)") // Debugging print statement
-                
-                // Dismiss the sheet
-                isPresented = false
-            }) {
+                showUserValidateDailyPushups = true
+            }, label: {
                 VStack {
                     Image("Pushups")
                         .resizable()
@@ -55,6 +46,19 @@ struct UserInputPushupsView: View {
                         .shadow(color: .white, radius: 3, x: -6, y: -6)
                         .frame(width: 70, height: 70)
                 )
+            })
+            .fullScreenCover(isPresented: $showUserValidateDailyPushups) {
+                ZStack {
+                    Color.backgroundGray
+                        .edgesIgnoringSafeArea(.all)
+                    
+                    // Pass the `onConfirm` closure to dismiss both sheets
+                    UserValidateDailyPushupsView(isPresented: $showUserValidateDailyPushups, inputDailyPushups: $newPushupCount) {
+                        // When confirmed, dismiss both views
+                        isPresented = false // This dismisses UserInputPushupsView
+                        showUserValidateDailyPushups = false // This dismisses UserValidateDailyPushupsView
+                    }
+                }
             }
         }
         .padding(80)
@@ -62,31 +66,31 @@ struct UserInputPushupsView: View {
 }
 
 
-struct UserResetDailyPushupsView: View {
-    
+struct UserValidateDailyPushupsView: View {
     @Binding var isPresented: Bool
+    @Binding var inputDailyPushups: Int
     
-    @AppStorage("daily_pushups") var daily_pushups: Int = 0 // Directly use @AppStorage for daily_pushups
+    @AppStorage("daily_pushups") var storedDailyPushups: Int = 0 // Directly use @AppStorage for daily_pushups
     
     let data = DataManager()
+    var onConfirm: () -> Void // Completion handler to dismiss both sheets simultaneously
     
     var body: some View {
         VStack {
-            Text("Do you really want to reset todays pushups?")
+            Text("Do you really want to submit \(inputDailyPushups) pushups?")
                 .foregroundColor(Color.foregroundDeepBlue)
                 .fontWeight(.semibold)
                 .multilineTextAlignment(.leading)
                 .padding(15)
+            
             HStack(spacing: 40) {
                 Button(action: {
-                    // Log the reset of pushups via DataManager and update @AppStorage
-                    data.reset_dailyPushups(resetValue: 0) // Persist the reset of dailyPushups
+                    // Log the new pushups via DataManager and update @AppStorage
+                    data.log_dailyPushups(dailyPushups: inputDailyPushups)
+                    print("Updated daily_pushups: \(inputDailyPushups)") // Debugging print statement
                     
-                    // SwiftUI automatically updates @AppStorage value, reflecting in other views
-                    print("Updated daily_pushups: \(daily_pushups)") // Debugging print statement
-                    
-                    // Dismiss the sheet
-                    isPresented = false
+                    // Call onConfirm to dismiss both sheets simultaneously
+                    onConfirm() // This dismisses the input sheet
                 }) {
                     VStack {
                         Image(systemName: "checkmark")
@@ -97,7 +101,7 @@ struct UserResetDailyPushupsView: View {
                     }
                     .padding(15)
                     .background(
-                        RoundedRectangle(cornerRadius: 20).fill(Color.foregroundRed)
+                        RoundedRectangle(cornerRadius: 20).fill(Color.foregroundYellow)
                             .shadow(color: .foregroundGray, radius: 3, x: 6, y: 6)
                             .shadow(color: .white, radius: 3, x: -6, y: -6)
                             .frame(width: 60, height: 60)
@@ -105,17 +109,15 @@ struct UserResetDailyPushupsView: View {
                 }
                 
                 Button(action: {
-                    // User rejects to reset daily pushups counter: No action and we return to the DialView()
-                    // Dismiss the sheet
-                    isPresented = false
+                    print("User chose not to submit daily_pushups")
+                    isPresented = false // Only dismiss the confirmation sheet
                 }) {
                     VStack {
                         Image(systemName: "xmark")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 30, height: 30)
-                            .foregroundColor(Color.backgroundGray)
-                        
+                            .foregroundColor(Color.white)
                     }
                     .padding(15)
                     .background(
@@ -130,4 +132,5 @@ struct UserResetDailyPushupsView: View {
         .padding(80)
     }
 }
+
 

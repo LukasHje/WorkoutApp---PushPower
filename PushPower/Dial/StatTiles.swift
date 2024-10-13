@@ -59,7 +59,7 @@ struct StatTileTimeElapsed: View {
             RoundedRectangle(cornerRadius: 15).fill(Color.backgroundGray)
                 .shadow(color: .foregroundGray, radius: 3, x: 4, y: 4)
                 .shadow(color: .white, radius: 3, x: -2, y: -2)
-                .frame(width: 200, height: 80)
+                .frame(width: 100, height: 80)
         )
     }
 }
