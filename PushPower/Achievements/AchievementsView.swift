@@ -23,15 +23,52 @@ struct AchievementsView: View {
     @AppStorage("700GoalAchieved") private var sevenHundredGoalAchieved = false
     @AppStorage("800GoalAchieved") private var eightHundredGoalAchieved = false
     @AppStorage("900GoalAchieved") private var nineHundredGoalAchieved = false
-    @AppStorage("1000GoalAchieved") private var thousandGoalAchieved = false
+    @AppStorage("1000GoalAchieved") private var oneThousandGoalAchieved = false
     // Streak milestones
     @AppStorage("threeDayStreakAchieved") private var threeDayStreakAchieved = false
     
+    
+    // Track the selected achievement
+    @State private var selectedAchievement: Achievement?
+    @State private var showDetail = false
+    
+    
     // Define a grid layout with two columns
-        let columns = [
-            GridItem(.flexible()), // Each column will take up equal space
-            GridItem(.flexible())
+    let columns = [GridItem(.flexible())]
+    
+    // Array of achievements
+    var achievements: [AchievementData] {
+        [
+//          achievementCard(unlocked: aJourneyBegins, title: "A Journey Begins", image: "50_pushups", detail: "You have started your journey to greatness."), //no image for this one yet
+            AchievementData(unlocked: firstGoalAchieved, title: "Completed my First Goal", image: "50_pushups", detail: "You have reached your first milestone."),
+            AchievementData(unlocked: oneHundredGoalAchieved, title: "Completed 100 Pushups", image: "100_pushups", detail: "You have successfully completed 100 pushups."),
+            AchievementData(unlocked: twoHundredGoalAchieved, title: "Completed 200 Pushups", image: "200_pushups", detail: "You have reached 200 pushups. Keep going!"),
+            AchievementData(unlocked: threeHundredGoalAchieved, title: "Completed 300 Pushups", image: "300_pushups", detail: "You have reached 300 pushups. Keep going!"),
+            AchievementData(unlocked: fourHundredGoalAchieved, title: "Completed 400 Pushups", image: "400_pushups", detail: "You have reached 400 pushups. Keep going!"),
+            AchievementData(unlocked: fiveHundredGoalAchieved, title: "Completed 500 Pushups", image: "500_pushups", detail: "You have reached 500 pushups. Keep going!"),
+//          achievementCard(unlocked: sixHundredGoalAchieved, title: "Completed 600 Pushups", image: "600_pushups", detail: "You have reached 600 pushups. Keep going!"), //no image for this one yet
+            AchievementData(unlocked: sevenHundredGoalAchieved, title: "Completed 700 Pushups", image: "700_pushups", detail: "You have reached 700 pushups. Keep going!"),
+//          achievementCard(unlocked: eightHundredGoalAchieved, title: "Completed 800 Pushups", image: "800_pushups", detail: "You have reached 800 pushups. Keep going!"), //no image for this one yet
+            AchievementData(unlocked: nineHundredGoalAchieved, title: "Completed 900 Pushups", image: "900_pushups", detail: "You have reached 900 pushups. Keep going!"),
+            AchievementData(unlocked: oneThousandGoalAchieved, title: "Completed 1000 Pushups", image: "1000_pushups", detail: "You have reached 1000 pushups. Keep going!"),
+//          achievementCard(unlocked: threeDayStreakAchieved, title: "Three-Day Streak", image: "50_pushups", detail: "You have completed a 3-day streak of pushups!"), //no image for this one yet
         ]
+    }
+    
+    // Sorted achievements: unlocked ones at the top
+    var sortedAchievements: [AchievementData] {
+        achievements.sorted { $0.unlocked && !$1.unlocked }
+    }
+    
+    // Filterd achievements: only unlocked ones
+    var unlockedAchievements: [AchievementData] {
+        achievements.filter { $0.unlocked }
+    }
+    
+    // Filterd achievements: only locked ones
+    var lockedAchievements: [AchievementData] {
+        achievements.filter { !$0.unlocked }
+    }
     
     var body: some View {
         ZStack {
@@ -39,414 +76,210 @@ struct AchievementsView: View {
             Color.backgroundGray
                 .edgesIgnoringSafeArea(.all) // Extend the background to cover the entire screen
             
-                VStack {
-                    Text("Achievements")
-                        .font(.title)
-                        .fontWeight(.semibold)
-                        .foregroundColor(Color.foregroundDeepBlue)
-                        .padding()
-                    ScrollView {
-                    VStack(spacing: 40) { // Add spacing between the achievement blocks
-                        // A Journey Begins - Achievement
-                        ZStack {
-                            if aJourneyBegins {
-                                RoundedRectangle(cornerRadius: 25)
-                                    .fill(LinearGradient(
-                                        gradient: Gradient(colors: [Color.gradientTileVice, Color.gradientTileCity]),
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                    ))
-                                    .frame(width: 200, height: 150)
-                                    .shadow(radius: 5)
-                                
-                                VStack(spacing: 10) {
-                                    Circle()
-                                        .fill(LinearGradient(
-                                            gradient: Gradient(colors: [Color.gradientTileCity, Color.gradientTileVice]),
-                                            startPoint: .topLeading,
-                                            endPoint: .bottomTrailing
-                                        ))
-                                        .frame(width: 125, height: 125)
-                                        .overlay( // Add the image inside the circle
-                                            Image("50_pushups")
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: 110, height: 110)
-                                                .clipShape(Circle()) // This will clip the image to a circular shape
-                                                .shadow(color: .gradientTileCity, radius: 2, x: 3, y: 3)
-                                                .shadow(color: .gradientTileVice, radius: 2, x: -3, y: -3)
-                                        )
-                                        .offset(y: -20)
-                                    
-                                    VStack {
-                                        Text("🏆 A Journey Begins")
-                                            .foregroundColor(.black)
-                                            .font(.caption)
-                                            .bold()
-                                    }
-                                    .padding(.top, -20)
-                                }
-                            } else {
-                                RoundedRectangle(cornerRadius: 25)
-                                    .fill(LinearGradient(
-                                        gradient: Gradient(colors: [Color.gradientTileLightGrey, Color.gradientTileDarkGrey]),
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                    ))
-                                    .frame(width: 200, height: 150)
-                                    .shadow(radius: 5)
-                                
-                                VStack(spacing: 10) {
-                                    Circle()
-                                        .fill(LinearGradient(
-                                            gradient: Gradient(colors: [Color.gradientTileDarkGrey, Color.gradientTileLightGrey]),
-                                            startPoint: .topLeading,
-                                            endPoint: .bottomTrailing
-                                        ))
-                                        .frame(width: 125, height: 125)
-                                        .overlay( // Add the image inside the circle
-                                            Image("locked")
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: 110, height: 110)
-                                                .clipShape(Circle()) // This will clip the image to a circular shape
-                                                .shadow(color: .gradientTileDarkGrey, radius: 3, x: 3, y: 3)
-                                                .shadow(color: .gradientTileLightGrey, radius: 3, x: -3, y: -3)
-                                        )
-                                        .offset(y: -20)
-                                    
-                                    VStack {
-                                        Text("A Journey Begins")
-                                            .foregroundColor(.black)
-                                            .font(.caption)
-                                            .bold()
-                                    }
-                                    .padding(.top, -20)
-                                }
-                            }
-                        } // ZStack ends
-                        
-                        // First Goal Achieved - Achievement
-                        ZStack {
-                            if firstGoalAchieved {
-                                RoundedRectangle(cornerRadius: 25)
-                                    .fill(LinearGradient(
-                                        gradient: Gradient(colors: [Color.gradientTileVice, Color.gradientTileCity]),
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                    ))
-                                    .frame(width: 200, height: 150)
-                                    .shadow(radius: 5)
-                                
-                                VStack(spacing: 10) {
-                                    Circle()
-                                        .fill(LinearGradient(
-                                            gradient: Gradient(colors: [Color.gradientTileCity, Color.gradientTileVice]),
-                                            startPoint: .topLeading,
-                                            endPoint: .bottomTrailing
-                                        ))
-                                        .frame(width: 125, height: 125)
-                                        .overlay( // Add the image inside the circle
-                                            Image("50_pushups")
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: 110, height: 110)
-                                                .clipShape(Circle()) // This will clip the image to a circular shape
-                                                .shadow(color: .gradientTileCity, radius: 2, x: 3, y: 3)
-                                                .shadow(color: .gradientTileVice, radius: 2, x: -3, y: -3)
-                                        )
-                                        .offset(y: -20)
-                                    
-                                    VStack {
-                                        Text("🏆 Completed my First Goal")
-                                            .foregroundColor(.black)
-                                            .font(.caption)
-                                            .bold()
-                                    }
-                                    .padding(.top, -20)
-                                }
-                            } else {
-                                RoundedRectangle(cornerRadius: 25)
-                                    .fill(LinearGradient(
-                                        gradient: Gradient(colors: [Color.gradientTileLightGrey, Color.gradientTileDarkGrey]),
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                    ))
-                                    .frame(width: 200, height: 150)
-                                    .shadow(radius: 5)
-                                
-                                VStack(spacing: 10) {
-                                    Circle()
-                                        .fill(LinearGradient(
-                                            gradient: Gradient(colors: [Color.gradientTileDarkGrey, Color.gradientTileLightGrey]),
-                                            startPoint: .topLeading,
-                                            endPoint: .bottomTrailing
-                                        ))
-                                        .frame(width: 125, height: 125)
-                                        .overlay( // Add the image inside the circle
-                                            Image("locked")
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: 110, height: 110)
-                                                .clipShape(Circle()) // This will clip the image to a circular shape
-                                                .shadow(color: .gradientTileDarkGrey, radius: 3, x: 3, y: 3)
-                                                .shadow(color: .gradientTileLightGrey, radius: 3, x: -3, y: -3)
-                                        )
-                                        .offset(y: -20)
-                                    
-                                    VStack {
-                                        Text("Completed my First Goal")
-                                            .foregroundColor(.black)
-                                            .font(.caption)
-                                            .bold()
-                                    }
-                                    .padding(.top, -20)
-                                }
-                            }
-                        } // ZStack ends
-                        
-                        // 100 pushups Achieved - Achievement
-                        ZStack {
-                            if firstGoalAchieved {
-                                RoundedRectangle(cornerRadius: 25)
-                                    .fill(LinearGradient(
-                                        gradient: Gradient(colors: [Color.gradientTileLightRose, Color.gradientTileRose]),
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                    ))
-                                    .frame(width: 200, height: 150)
-                                    .shadow(radius: 5)
-                                
-                                VStack(spacing: 10) {
-                                    Circle()
-                                        .fill(LinearGradient(
-                                            gradient: Gradient(colors: [Color.gradientTileRose, Color.gradientTileLightRose]),
-                                            startPoint: .topLeading,
-                                            endPoint: .bottomTrailing
-                                        ))
-                                        .frame(width: 125, height: 125)
-                                        .overlay( // Add the image inside the circle
-                                            Image("100_pushups")
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: 110, height: 110)
-                                                .clipShape(Circle()) // This will clip the image to a circular shape
-                                                .shadow(color: .gradientTileRose, radius: 2, x: 3, y: 3)
-                                                .shadow(color: .gradientTileLightRose, radius: 2, x: -3, y: -3)
-                                        )
-                                        .offset(y: -20)
-                                    
-                                    VStack {
-                                        Text("🏆 Completed 100 Pushups")
-                                            .foregroundColor(.black)
-                                            .font(.caption)
-                                            .bold()
-                                    }
-                                    .padding(.top, -20)
-                                }
-                            } else {
-                                RoundedRectangle(cornerRadius: 25)
-                                    .fill(LinearGradient(
-                                        gradient: Gradient(colors: [Color.gradientTileLightGrey, Color.gradientTileDarkGrey]),
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                    ))
-                                    .frame(width: 200, height: 150)
-                                    .shadow(radius: 5)
-                                
-                                VStack(spacing: 10) {
-                                    Circle()
-                                        .fill(LinearGradient(
-                                            gradient: Gradient(colors: [Color.gradientTileDarkGrey, Color.gradientTileLightGrey]),
-                                            startPoint: .topLeading,
-                                            endPoint: .bottomTrailing
-                                        ))
-                                        .frame(width: 125, height: 125)
-                                        .overlay( // Add the image inside the circle
-                                            Image("locked")
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: 110, height: 110)
-                                                .clipShape(Circle()) // This will clip the image to a circular shape
-                                                .shadow(color: .gradientTileDarkGrey, radius: 3, x: 3, y: 3)
-                                                .shadow(color: .gradientTileLightGrey, radius: 3, x: -3, y: -3)
-                                        )
-                                        .offset(y: -20)
-                                    
-                                    VStack {
-                                        Text("Completed 100 Pushups")
-                                            .foregroundColor(.black)
-                                            .font(.caption)
-                                            .bold()
-                                    }
-                                    .padding(.top, -20)
-                                }
-                            }
-                        } // ZStack ends
-                        
-                        // 200 pushups Achieved - Achievement
-                        ZStack {
-                            if firstGoalAchieved {
-                                RoundedRectangle(cornerRadius: 25)
-                                    .fill(LinearGradient(
-                                        gradient: Gradient(colors: [Color.gradientTileDawnLight, Color.gradientTileDawnDark]),
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                    ))
-                                    .frame(width: 200, height: 150)
-                                    .shadow(radius: 5)
-                                
-                                VStack(spacing: 10) {
-                                    Circle()
-                                        .fill(LinearGradient(
-                                            gradient: Gradient(colors: [Color.gradientTileDawnDark, Color.gradientTileDawnLight]),
-                                            startPoint: .topLeading,
-                                            endPoint: .bottomTrailing
-                                        ))
-                                        .frame(width: 125, height: 125)
-                                        .overlay( // Add the image inside the circle
-                                            Image("200_pushups")
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: 110, height: 110)
-                                                .clipShape(Circle()) // This will clip the image to a circular shape
-                                                .shadow(color: .gradientTileDawnDark, radius: 2, x: 3, y: 3)
-                                                .shadow(color: .gradientTileDawnLight, radius: 2, x: -3, y: -3)
-                                        )
-                                        .offset(y: -20)
-                                    
-                                    VStack {
-                                        Text("🏆 Completed 200 Pushups")
-                                            .foregroundColor(.black)
-                                            .font(.caption)
-                                            .bold()
-                                    }
-                                    .padding(.top, -20)
-                                }
-                            } else {
-                                RoundedRectangle(cornerRadius: 25)
-                                    .fill(LinearGradient(
-                                        gradient: Gradient(colors: [Color.gradientTileLightGrey, Color.gradientTileDarkGrey]),
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                    ))
-                                    .frame(width: 200, height: 150)
-                                    .shadow(radius: 5)
-                                
-                                VStack(spacing: 10) {
-                                    Circle()
-                                        .fill(LinearGradient(
-                                            gradient: Gradient(colors: [Color.gradientTileDarkGrey, Color.gradientTileLightGrey]),
-                                            startPoint: .topLeading,
-                                            endPoint: .bottomTrailing
-                                        ))
-                                        .frame(width: 125, height: 125)
-                                        .overlay( // Add the image inside the circle
-                                            Image("locked")
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: 110, height: 110)
-                                                .clipShape(Circle()) // This will clip the image to a circular shape
-                                                .shadow(color: .gradientTileDarkGrey, radius: 3, x: 3, y: 3)
-                                                .shadow(color: .gradientTileLightGrey, radius: 3, x: -3, y: -3)
-                                        )
-                                        .offset(y: -20)
-                                    
-                                    VStack {
-                                        Text("Completed 100 Pushups")
-                                            .foregroundColor(.black)
-                                            .font(.caption)
-                                            .bold()
-                                    }
-                                    .padding(.top, -20)
-                                }
-                            }
-                        } // ZStack ends
-                        
-                        // Three-Day Streak - Achievement
-                        ZStack {
-                            if threeDayStreakAchieved {
-                                RoundedRectangle(cornerRadius: 25)
-                                    .fill(LinearGradient(
-                                        gradient: Gradient(colors: [Color.gradientTileVice, Color.gradientTileCity]),
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                    ))
-                                    .frame(width: 200, height: 150)
-                                    .shadow(radius: 5)
-                                
-                                VStack(spacing: 10) {
-                                    Circle()
-                                        .fill(LinearGradient(
-                                            gradient: Gradient(colors: [Color.gradientTileCity, Color.gradientTileVice]),
-                                            startPoint: .topLeading,
-                                            endPoint: .bottomTrailing
-                                        ))
-                                        .frame(width: 125, height: 125)
-                                        .overlay( // Add the image inside the circle
-                                            Image("50_pushups")
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: 110, height: 110)
-                                                .clipShape(Circle()) // This will clip the image to a circular shape
-                                                .shadow(color: .gradientTileCity, radius: 2, x: 3, y: 3)
-                                                .shadow(color: .gradientTileVice, radius: 2, x: -3, y: -3)
-                                        )
-                                        .offset(y: -20)
-                                    
-                                    VStack {
-                                        Text("🏆 Three-Day Streak")
-                                            .foregroundColor(.black)
-                                            .font(.caption)
-                                            .bold()
-                                    }
-                                    .padding(.top, -20)
-                                }
-                            } else {
-                                RoundedRectangle(cornerRadius: 25)
-                                    .fill(LinearGradient(
-                                        gradient: Gradient(colors: [Color.gradientTileLightGrey, Color.gradientTileDarkGrey]),
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                    ))
-                                    .frame(width: 200, height: 150)
-                                    .shadow(radius: 5)
-                                
-                                VStack(spacing: 10) {
-                                    Circle()
-                                        .fill(LinearGradient(
-                                            gradient: Gradient(colors: [Color.gradientTileDarkGrey, Color.gradientTileLightGrey]),
-                                            startPoint: .topLeading,
-                                            endPoint: .bottomTrailing
-                                        ))
-                                        .frame(width: 125, height: 125)
-                                        .overlay( // Add the image inside the circle
-                                            Image("locked")
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: 110, height: 110)
-                                                .clipShape(Circle()) // This will clip the image to a circular shape
-                                                .shadow(color: .gradientTileDarkGrey, radius: 3, x: 3, y: 3)
-                                                .shadow(color: .gradientTileLightGrey, radius: 3, x: -3, y: -3)
-                                        )
-                                        .offset(y: -20)
-                                    
-                                    VStack {
-                                        Text("Three-Day Streak")
-                                            .foregroundColor(.black)
-                                            .font(.caption)
-                                            .bold()
-                                    }
-                                    .padding(.top, -20)
-                                }
-                            }
-                        } // ZStack ends
+            VStack {
+                Text("Unlocked Achievements")
+                    .font(.title)
+                    .fontWeight(.semibold)
+                    .foregroundColor(Color.foregroundDeepBlue)
+                    .padding()
+                
+                ScrollView {
+                    LazyVGrid(columns: columns, spacing: 20) {
+                        ForEach(unlockedAchievements, id: \.title) { achievement in
+                            achievementCard(unlocked: achievement.unlocked, title: achievement.title, image: achievement.image, detail: achievement.detail)
+                        }
                     }
-                    .padding() // Padding for the VStack: Holds ZStacks of achievments
+                    .frame(maxWidth: .infinity)
+                    .padding() // Padding for the grid
                 } // ScrollView Ends
-                .padding()
+                
+                Text("Locked Achievements")
+                    .font(.title)
+                    .fontWeight(.semibold)
+                    .foregroundColor(Color.foregroundDeepBlue)
+                    .padding()
+                
+                ScrollView {
+                    LazyVGrid(columns: columns, spacing: 20) {
+                        ForEach(lockedAchievements, id: \.title) { achievement in
+                            achievementCard(unlocked: achievement.unlocked, title: achievement.title, image: achievement.image, detail: achievement.detail)
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding() // Padding for the grid
+                } // ScrollView Ends
             } // VStack Ends
             .padding()
+            
+            // Show the detail view when an achievement is clicked
+            if let achievement = selectedAchievement, showDetail {
+                ZStack {
+                    Color.black.opacity(0.4).edgesIgnoringSafeArea(.all) // Background overlay
+                    
+                    VStack {
+                        Circle()
+                            .fill(
+                                // Check if the achievement is unlocked or locked, and change the background accordingly
+                                achievement.isUnlocked ?
+                                LinearGradient(
+                                    gradient: Gradient(colors: [Color.gradientTileDawnLight, Color.gradientTileDawnDark]),
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                                :
+                                LinearGradient(
+                                    gradient: Gradient(colors: [Color.gradientTileLightGrey, Color.gradientTileDarkGrey]),
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                            )
+                            .frame(width: 120, height: 120)
+                            .overlay( // Add the image inside the circle
+                                Image(achievement.isUnlocked ? achievement.imageName : "locked")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 100, height: 100)
+                                    .clipShape(Circle())
+                                    .shadow(color: .gradientTileCity, radius: 2, x: 3, y: 3)
+                                    .shadow(color: .gradientTileVice, radius: 2, x: -3, y: -3)
+                            )
+                            .offset(y: -10)
+                        VStack {
+                            Text(achievement.title)
+                                .font(.headline)
+                                .foregroundColor(.backgroundGray)
+                                .padding()
+                            
+                            Text(achievement.detail)
+                                .font(.body)
+                                .foregroundColor(.backgroundGray)
+                                .padding()
+                            
+                            Button("Close") {
+                                showDetail = false
+                            }
+                            .padding(10)
+                            .background(.blue)
+                            .foregroundColor(.backgroundGray)
+                            .cornerRadius(10)
+                        }
+                        .frame(width: .infinity, height: 200)
+                        .background(
+                            // Check if the achievement is unlocked or locked, and change the background accordingly
+                            achievement.isUnlocked ?
+                            LinearGradient(
+                                gradient: Gradient(colors: [Color.gradientTileDawnLight, Color.gradientTileDawnDark]),
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                            :
+                            LinearGradient(
+                                gradient: Gradient(colors: [Color.gradientTileLightGrey, Color.gradientTileDarkGrey]),
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                        .cornerRadius(20)
+                        .shadow(radius: 10)
+                        .transition(.scale)
+                        .zIndex(1) // Ensure this view appears above everything else
+                    }
+                }
+            } // if selectedAchievment Ends
         } // ZStack Ends
     } // body View Ends
-} // StructView Ends
+    
+    // Helper function to generate achievement cards
+    @ViewBuilder
+    func achievementCard(unlocked: Bool, title: String, image: String, detail: String) -> some View {
+        ZStack {
+            if unlocked {
+                RoundedRectangle(cornerRadius: 25)
+                    .fill(LinearGradient(
+                        gradient: Gradient(colors: [Color.gradientTileVice, Color.gradientTileCity]),
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    ))
+                    .frame(width: .infinity, height: 80)
+                    .shadow(radius: 5)
+                    .onTapGesture {
+                        selectedAchievement = Achievement(title: title, detail: detail, imageName: image, isUnlocked: true)
+                        showDetail = true
+                    }
+                    .overlay(
+                        HStack(spacing: 10) { // Stack the circle and text
+                            Circle()
+                                .fill(LinearGradient(
+                                    gradient: Gradient(colors: [Color.gradientTileCity, Color.gradientTileVice]),
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                ))
+                                .frame(width: 80, height: 80)
+                                .overlay( // Add the image inside the circle
+                                    Image(image)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 70, height: 70)
+                                        .clipShape(Circle())
+                                        .shadow(color: .gradientTileCity, radius: 2, x: 3, y: 3)
+                                        .shadow(color: .gradientTileVice, radius: 2, x: -3, y: -3)
+                                )
+                                .offset(x: -20, y: 0)
+                                .padding(-20)
+                            
+                            Text("🏆 \(title)")
+                                .foregroundColor(.backgroundGray)
+                                .font(.headline) // Increase the font size
+                                .bold()
+                                .lineLimit(1) // Limit to 1 line
+                                .truncationMode(.tail) // Add ellipsis (...) if text is too long
+                        }
+                        .padding(.horizontal, 20) // Optional horizontal padding to add space from the edges
+                    )
+                } else {
+                RoundedRectangle(cornerRadius: 25)
+                    .fill(LinearGradient(
+                        gradient: Gradient(colors: [Color.gradientTileLightGrey, Color.gradientTileDarkGrey]),
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    ))
+                    .frame(width: .infinity, height: 80)
+                    .shadow(radius: 5)
+                    .onTapGesture {
+                        selectedAchievement = Achievement(title: title, detail: "Achievement is locked.", imageName: image, isUnlocked: false)
+                        showDetail = true
+                    }
+                    .overlay(
+                        HStack(spacing: 10) {
+                            Circle()
+                                .fill(LinearGradient(
+                                    gradient: Gradient(colors: [Color.gradientTileDarkGrey, Color.gradientTileLightGrey]),
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                ))
+                                .frame(width: 80, height: 80)
+                                .overlay( // Add the image inside the circle
+                                    Image("locked")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 70, height: 70)
+                                        .clipShape(Circle())
+                                        .shadow(color: .gradientTileDarkGrey, radius: 3, x: 3, y: 3)
+                                        .shadow(color: .gradientTileLightGrey, radius: 3, x: -3, y: -3)
+                                )
+                                .offset(x: -30, y: 0)
+                                .padding(-20)
+                            
+                            Text("\(title)")
+                                .foregroundColor(.backgroundGray)
+                                .font(.headline)
+                                .bold()
+                                .lineLimit(1) // Limit to 1 line
+                                .truncationMode(.tail) // Add ellipsis (...) if text is too long
+                        }
+                        .padding(.horizontal, 20)
+                ) // overlay ends
+            } // else ends
+        }
+    }
+}

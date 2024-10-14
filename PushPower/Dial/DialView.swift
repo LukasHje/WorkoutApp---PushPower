@@ -25,7 +25,7 @@ struct DialView: View {
     @AppStorage("700GoalAchieved") private var sevenHundredGoalAchieved = false
     @AppStorage("800GoalAchieved") private var eightHundredGoalAchieved = false
     @AppStorage("900GoalAchieved") private var nineHundredGoalAchieved = false
-    @AppStorage("1000GoalAchieved") private var thousandGoalAchieved = false
+    @AppStorage("1000GoalAchieved") private var oneThousandGoalAchieved = false
     // Streak milestones
     @AppStorage("threeDayStreakAchieved") private var threeDayStreakAchieved = false
     
@@ -149,22 +149,25 @@ struct DialView: View {
                         .frame(width: 100, height: 100)
                     StatTileTimeElapsed(image: "clock.fill", value: completionTime, measurment: "Time")
                         .frame(width: 150, height: 100)
-                    
-                    
-                // Achievement Popup
-                if showAchievementPopup {
-                    VStack {
-                        Text("🎉 Achievement Unlocked! 🎉")
-                        Text(achievementText)
-                    }
-                    .padding()
-                    .background(Color.yellow)
-                    .cornerRadius(10)
-                
-                }
-                    
                 }
                 .padding()
+            }
+            
+            // Achievement Popup
+            if showAchievementPopup {
+                VStack {
+                    Text("🎉 Achievement Unlocked! 🎉")
+                    Text(achievementText)
+                }
+                .padding()
+                .background(Color.yellow)
+                .cornerRadius(10)
+                .cornerRadius(15)
+                .shadow(radius: 10)
+                .padding()
+                .zIndex(2) // Ensure the popup is above everything else
+                .transition(.scale)
+                .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2) // Center the popup
             }
         }
         .onAppear {
@@ -181,167 +184,229 @@ struct DialView: View {
     }
     
     
-    func logPushupCompletion() {
-        let today = getCurrentDateString()
-        
-        if storedDailyPushups >= storedCurrentGoal {
-            goalReached = true // Set goalReached to true once the goal is completed
-            
-            // Convert the lastCompletionDate from String to Date
-           if lastCompletionDate.isEmpty || !Calendar.current.isDateInToday(getDate(from: lastCompletionDate) ?? Date.distantPast) {
-               // First completion or goal completed on a new day
-                if let lastDate = getDate(from: lastCompletionDate),
-                   Calendar.current.isDateInYesterday(lastDate) {
-                    // Continue streak if yesterday's goal was completed
-                    data.log_streak(streak: 1) // Persist streak
-                } else {
-                    // Reset streak if yesterday's goal was not completed
-                    data.reset_streak(resetValue: 1) // Persist the reset of streak
-                }
-            }
-            // Update last completion date
-            lastCompletionDate = today
-            
-            // Now that streak and goal status are updated, check for achievements
-            checkForAchievement()
-        }
-    }
+func logPushupCompletion() {
+    let today = getCurrentDateString()
     
-    enum Achievement: String {
-        case threeDayStreak = "Three Day Streak"
-        case aJourneyBegins = "My First Day"
-        case firstGoal = "Completed my First Goal"
-        // Add more achievements here as needed
-    }
+    if storedDailyPushups >= storedCurrentGoal {
+        goalReached = true // Set goalReached to true once the goal is completed
         
-    // Function to check and trigger achievements
-    func checkForAchievement() {
-        print("Checking for achievements. Streak: \(storedStreak), Daily Pushups: \(storedDailyPushups), Current Goal: \(storedCurrentGoal)")
-        
-        // Check for "Three Day Streak" achievement
-        if storedStreak == 3 && !threeDayStreakAchieved {
-            unlockAchievement(.threeDayStreak)
-        }
-        
-        // Check for "My First Day" achievement (first time user hits a streak of 1)
-        if storedStreak == 0 && storedDailyPushups > 0 && !aJourneyBegins {
-            unlockAchievement(.aJourneyBegins)
-        }
-        
-        // Check for "Completed First Goal" achievement
-        if storedDailyPushups >= storedCurrentGoal && !firstGoalAchieved {
-            unlockAchievement(.firstGoal)
-        }
-        
-        // Add more achievement conditions here
-    }
-    
-    // Unlock an achievement and show the popup
-    func unlockAchievement(_ achievement: Achievement) {
-        switch achievement {
-        case .threeDayStreak:
-            threeDayStreakAchieved = true
-        case .aJourneyBegins:
-            aJourneyBegins = true
-        case .firstGoal:
-            firstGoalAchieved = true
-        }
-        
-        // Set the achievement text and show the popup
-        achievementText = achievement.rawValue
-        showAchievementPopup = true
-        
-        // Dismiss popup after 3 seconds
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            showAchievementPopup = false
-        }
-    }
-    
-    func resetDailyPushupsIfNeeded() {
-        let today = getCurrentDateString()
-        
-        // Check if lastResetDate is empty or if it is not the current day
-        if lastResetDate != today {
-            // Reset daily pushups
-            data.reset_dailyPushups(resetValue: 0) // Persist the reset of dailyPushups
-            
-            // Update the last reset date to today
-            lastResetDate = today
-        }
-    }
-    
-    func logStartTimeIfNeeded() {
-        if startTime.isEmpty {
-            startTime = getCurrentTimeString()
-        }
-    }
-    
-    // Function to reset start time. Which also will reset Completion_Time and KcalBurned
-    func resetStartTime() {
-        startTime = ""
-        
-        // Reset completion time
-        completionTime = "N/A"
-    }
-    
-    func logCompletionTime() {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        
-        if let start = formatter.date(from: startTime) {
-            let now = Date()
-            let timeInterval = now.timeIntervalSince(start)
-            
-            // Convert timeInterval (seconds) into hours, minutes, and seconds
-            let hours = Int(timeInterval) / 3600
-            let minutes = (Int(timeInterval) % 3600) / 60
-            let seconds = Int(timeInterval) % 60
-            
-            // Format based on whether it's over an hour or less
-            if hours > 0 {
-                // If time exceeds 1 hour, show hours with minutes as decimal
-                let decimalMinutes = Double(minutes) / 60.0
-                let timeString = String(format: "%.2fh", Double(hours) + decimalMinutes)
-                completionTime = timeString // Update local state
+        // Convert the lastCompletionDate from String to Date
+       if lastCompletionDate.isEmpty || !Calendar.current.isDateInToday(getDate(from: lastCompletionDate) ?? Date.distantPast) {
+           // First completion or goal completed on a new day
+            if let lastDate = getDate(from: lastCompletionDate),
+               Calendar.current.isDateInYesterday(lastDate) {
+                // Continue streak if yesterday's goal was completed
+                data.log_streak(streak: 1) // Persist streak
             } else {
-                // If time is below 1 hour, show minutes with seconds as decimal
-                let decimalSeconds = Double(seconds) / 60.0
-                let timeString = String(format: "%.2fm", Double(minutes) + decimalSeconds)
-                completionTime = timeString // Update local state
+                // Reset streak if yesterday's goal was not completed
+                data.reset_streak(resetValue: 1) // Persist the reset of streak
             }
-        } else {
-            completionTime = "N/A" // If no valid start time is found
         }
+        // Update last completion date
+        lastCompletionDate = today
+        
+        // Now that streak and goal status are updated, check for achievements
+        checkForAchievement()
     }
+}
 
-
-    // Helper functions to get the current date as a string and convert from string to date
-    func getCurrentDateString() -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        return formatter.string(from: Date())
-    }
-
-    func getDate(from string: String) -> Date? {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        return formatter.date(from: string)
+enum Achievement: String {
+    
+    case aJourneyBegins = "My First Day"
+    case firstGoal = "Completed my First Goal: 50 pushups"
+    case oneHundredGoalAchieved = "Completed 100 pushups"
+    case twoHundredGoalAchieved = "Completed 200 pushups"
+    case threeHundredGoalAchieved = "Completed 300 pushups"
+    case fourHundredGoalAchieved = "Completed 400 pushups"
+    case fiveHundredGoalAchieved = "Completed 500 pushups"
+    case sixHundredGoalAchieved = "Completed 600 pushups"
+    case sevenHundredGoalAchieved = "Completed 700 pushups"
+    case eightHundredGoalAchieved = "Completed 800 pushups"
+    case nineHundredGoalAchieved = "Completed 900 pushups"
+    case oneThousandGoalAchieved = "Completed 1000 pushups"
+    case threeDayStreak = "Three Day Streak"
+    // Add more achievements here as needed
+}
+    
+// Function to check and trigger achievements
+func checkForAchievement() {
+    print("Checking for achievements. Streak: \(storedStreak), Daily Pushups: \(storedDailyPushups), Current Goal: \(storedCurrentGoal)")
+            
+    // Check for "My First Day" achievement (first time user hits a streak of 1)
+    if storedStreak == 0 && storedDailyPushups > 0 && !aJourneyBegins {
+        unlockAchievement(.aJourneyBegins)
     }
     
-    // Helper function to get the current time as a string
-    func getCurrentTimeString() -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss" // Format to store both date and time
-        return formatter.string(from: Date())
+    // Reaching a new pushup goal - achievements
+    if storedDailyPushups >= storedCurrentGoal && !firstGoalAchieved {
+        unlockAchievement(.firstGoal)
     }
+    if storedDailyPushups >= 100 && !oneHundredGoalAchieved {
+        unlockAchievement(.oneHundredGoalAchieved)
+    }
+    if storedDailyPushups >= 200 && !twoHundredGoalAchieved {
+        unlockAchievement(.twoHundredGoalAchieved)
+    }
+    if storedDailyPushups >= 300 && !threeHundredGoalAchieved {
+        unlockAchievement(.threeHundredGoalAchieved)
+    }
+    if storedDailyPushups >= 400 && !fourHundredGoalAchieved {
+        unlockAchievement(.fourHundredGoalAchieved)
+    }
+    if storedDailyPushups >= 500 && !fiveHundredGoalAchieved {
+        unlockAchievement(.fiveHundredGoalAchieved)
+    }
+    if storedDailyPushups >= 600 && !sixHundredGoalAchieved {
+        unlockAchievement(.sixHundredGoalAchieved)
+    }
+    if storedDailyPushups >= 700 && !sevenHundredGoalAchieved {
+        unlockAchievement(.sevenHundredGoalAchieved)
+    }
+    if storedDailyPushups >= 800 && !eightHundredGoalAchieved {
+        unlockAchievement(.eightHundredGoalAchieved)
+    }
+    if storedDailyPushups >= 900 && !nineHundredGoalAchieved {
+        unlockAchievement(.nineHundredGoalAchieved)
+    }
+    if storedDailyPushups >= 1000 && !oneThousandGoalAchieved {
+        unlockAchievement(.oneThousandGoalAchieved)
+    }
+    
+    // Doing pushups in successive days - acievements
+    if storedStreak == 3 && !threeDayStreakAchieved {
+        unlockAchievement(.threeDayStreak)
+    }
+    // Add more achievement conditions here
+}
+
+// Unlock an achievement and show the popup
+func unlockAchievement(_ achievement: Achievement) {
+    switch achievement {
+    case .aJourneyBegins:
+        aJourneyBegins = true
+        
+    case .firstGoal: 
+        firstGoalAchieved = true
+    case .oneHundredGoalAchieved:
+        oneHundredGoalAchieved = true
+    case .twoHundredGoalAchieved:
+        twoHundredGoalAchieved = true
+    case .threeHundredGoalAchieved:
+        threeHundredGoalAchieved = true
+    case .fourHundredGoalAchieved:
+        fourHundredGoalAchieved = true
+    case .fiveHundredGoalAchieved:
+        fiveHundredGoalAchieved = true
+    case .sixHundredGoalAchieved:
+        sixHundredGoalAchieved = true
+    case .sevenHundredGoalAchieved:
+        sevenHundredGoalAchieved = true
+    case .eightHundredGoalAchieved:
+        eightHundredGoalAchieved = true
+    case .nineHundredGoalAchieved:
+        nineHundredGoalAchieved = true
+    case .oneThousandGoalAchieved:
+        oneThousandGoalAchieved = true
+
+    case .threeDayStreak:
+        threeDayStreakAchieved = true
+    }
+    
+    // Set the achievement text and show the popup
+    achievementText = achievement.rawValue
+    showAchievementPopup = true
+    
+    // Dismiss popup after 3 seconds
+    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+        showAchievementPopup = false
+    }
+}
+
+func resetDailyPushupsIfNeeded() {
+    let today = getCurrentDateString()
+    
+    // Check if lastResetDate is empty or if it is not the current day
+    if lastResetDate != today {
+        // Reset daily pushups
+        data.reset_dailyPushups(resetValue: 0) // Persist the reset of dailyPushups
+        
+        // Update the last reset date to today
+        lastResetDate = today
+    }
+}
+
+func logStartTimeIfNeeded() {
+    if startTime.isEmpty {
+        startTime = getCurrentTimeString()
+    }
+}
+
+// Function to reset start time. Which also will reset Completion_Time and KcalBurned
+func resetStartTime() {
+    startTime = ""
+    
+    // Reset completion time
+    completionTime = "N/A"
+}
+
+func logCompletionTime() {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    
+    if let start = formatter.date(from: startTime) {
+        let now = Date()
+        let timeInterval = now.timeIntervalSince(start)
+        
+        // Convert timeInterval (seconds) into hours, minutes, and seconds
+        let hours = Int(timeInterval) / 3600
+        let minutes = (Int(timeInterval) % 3600) / 60
+        let seconds = Int(timeInterval) % 60
+        
+        // Format based on whether it's over an hour or less
+        if hours > 0 {
+            // If time exceeds 1 hour, show hours with minutes as decimal
+            let decimalMinutes = Double(minutes) / 60.0
+            let timeString = String(format: "%.2fh", Double(hours) + decimalMinutes)
+            completionTime = timeString // Update local state
+        } else {
+            // If time is below 1 hour, show minutes with seconds as decimal
+            let decimalSeconds = Double(seconds) / 60.0
+            let timeString = String(format: "%.2fm", Double(minutes) + decimalSeconds)
+            completionTime = timeString // Update local state
+        }
+    } else {
+        completionTime = "N/A" // If no valid start time is found
+    }
+}
+
+
+// Helper functions to get the current date as a string and convert from string to date
+func getCurrentDateString() -> String {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy-MM-dd"
+    return formatter.string(from: Date())
+}
+
+func getDate(from string: String) -> Date? {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy-MM-dd"
+    return formatter.date(from: string)
+}
+
+// Helper function to get the current time as a string
+func getCurrentTimeString() -> String {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy-MM-dd HH:mm:ss" // Format to store both date and time
+    return formatter.string(from: Date())
+}
 
 }
 
 //dev notes: Used for debugging
 func resetAppStorage() {
-    if let appDomain = Bundle.main.bundleIdentifier {
-        UserDefaults.standard.removePersistentDomain(forName: appDomain)
-        print("AppStorage reset for all keys")
-    }
+if let appDomain = Bundle.main.bundleIdentifier {
+    UserDefaults.standard.removePersistentDomain(forName: appDomain)
+    print("AppStorage reset for all keys")
+}
 }
 

@@ -64,3 +64,19 @@ struct MathRound {
         }
     }
 }
+
+// Struct to represent an achievement
+struct Achievement {
+    let title: String
+    let detail: String
+    let imageName: String
+    let isUnlocked: Bool // Add this property to track whether the achievement is unlocked or locked
+}
+
+// Achievement data model
+struct AchievementData {
+    var unlocked: Bool
+    var title: String
+    var image: String
+    var detail: String
+}
