@@ -44,7 +44,7 @@ struct AchievementsView: View {
             AchievementData(unlocked: oneHundredGoalAchieved, title: "Completed 100 Pushups", image: "100_pushups", detail: "You have successfully completed 100 pushups."),
             AchievementData(unlocked: twoHundredGoalAchieved, title: "Completed 200 Pushups", image: "200_pushups", detail: "You have reached 200 pushups. Keep going!"),
             AchievementData(unlocked: threeHundredGoalAchieved, title: "Completed 300 Pushups", image: "300_pushups", detail: "You have reached 300 pushups. Keep going!"),
-            AchievementData(unlocked: fourHundredGoalAchieved, title: "Completed 400 Pushups", image: "400_pushups", detail: "You have reached 400 pushups. Keep going!"),
+//          AchievementData(unlocked: fourHundredGoalAchieved, title: "Completed 400 Pushups", image: "400_pushups", detail: "You have reached 400 pushups. Keep going!"),
             AchievementData(unlocked: fiveHundredGoalAchieved, title: "Completed 500 Pushups", image: "500_pushups", detail: "You have reached 500 pushups. Keep going!"),
 //          achievementCard(unlocked: sixHundredGoalAchieved, title: "Completed 600 Pushups", image: "600_pushups", detail: "You have reached 600 pushups. Keep going!"), //no image for this one yet
             AchievementData(unlocked: sevenHundredGoalAchieved, title: "Completed 700 Pushups", image: "700_pushups", detail: "You have reached 700 pushups. Keep going!"),
@@ -77,7 +77,7 @@ struct AchievementsView: View {
                 .edgesIgnoringSafeArea(.all) // Extend the background to cover the entire screen
             
             VStack {
-                Text("Unlocked Achievements")
+                Text("Achievements")
                     .font(.title)
                     .fontWeight(.semibold)
                     .foregroundColor(Color.foregroundDeepBlue)
@@ -85,7 +85,7 @@ struct AchievementsView: View {
                 
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 20) {
-                        ForEach(unlockedAchievements, id: \.title) { achievement in
+                        ForEach(sortedAchievements, id: \.title) { achievement in
                             achievementCard(unlocked: achievement.unlocked, title: achievement.title, image: achievement.image, detail: achievement.detail)
                         }
                     }
@@ -93,21 +93,21 @@ struct AchievementsView: View {
                     .padding() // Padding for the grid
                 } // ScrollView Ends
                 
-                Text("Locked Achievements")
-                    .font(.title)
-                    .fontWeight(.semibold)
-                    .foregroundColor(Color.foregroundDeepBlue)
-                    .padding()
-                
-                ScrollView {
-                    LazyVGrid(columns: columns, spacing: 20) {
-                        ForEach(lockedAchievements, id: \.title) { achievement in
-                            achievementCard(unlocked: achievement.unlocked, title: achievement.title, image: achievement.image, detail: achievement.detail)
-                        }
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding() // Padding for the grid
-                } // ScrollView Ends
+//                Text("Locked Achievements")
+//                    .font(.title)
+//                    .fontWeight(.semibold)
+//                    .foregroundColor(Color.foregroundDeepBlue)
+//                    .padding()
+//
+//                ScrollView {
+//                    LazyVGrid(columns: columns, spacing: 20) {
+//                        ForEach(lockedAchievements, id: \.title) { achievement in
+//                            achievementCard(unlocked: achievement.unlocked, title: achievement.title, image: achievement.image, detail: achievement.detail)
+//                        }
+//                    }
+//                    .frame(maxWidth: .infinity)
+//                    .padding() // Padding for the grid
+//                } // ScrollView Ends
             } // VStack Ends
             .padding()
             
@@ -133,12 +133,12 @@ struct AchievementsView: View {
                                     endPoint: .bottomTrailing
                                 )
                             )
-                            .frame(width: 120, height: 120)
+                            .frame(width: 180, height: 180)
                             .overlay( // Add the image inside the circle
                                 Image(achievement.isUnlocked ? achievement.imageName : "locked")
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: 100, height: 100)
+                                    .frame(width: 150, height: 150)
                                     .clipShape(Circle())
                                     .shadow(color: .gradientTileCity, radius: 2, x: 3, y: 3)
                                     .shadow(color: .gradientTileVice, radius: 2, x: -3, y: -3)

@@ -8,39 +8,75 @@
 import SwiftUI
 
 struct ContentView: View {
+//    var body: some View {
+//        VStack {
+//            TabView {
+//                DialView()
+//                    .tabItem() {
+//                        Image(systemName: "house")
+//                        Text("Home")
+//                    }
+////                Dial2View()
+////                    .tabItem() {
+////                        Image(systemName: "testtube.2")
+////                        Text("concept2")
+////                    }
+//                AchievementsGridView()
+//                    .tabItem() {
+//                        Image(systemName: "crown.fill")
+//                        Text("Statistics")
+//                    }
+//                AchievementsView()
+//                    .tabItem() {
+//                        Image(systemName: "rosette")
+//                        Text("Achievements")
+//                    }
+//            }
+//        }
+//    }
+    
+    // Start the user at DialView, which is at index 0 in the array
+    @State private var selectedView = 0 // Keep track of the selected view
+    
+    // List of views
+    private let views: [AnyView] = [
+        AnyView(SettingsView()),          // -1 (Left swipe to settings)
+        AnyView(DialView()),              // 0 (Starting view - DialView)
+        AnyView(AchievementsGridView()),  // 1 (Right swipe to AchievementsGridView)
+        AnyView(AchievementsView())       // 2 (Right swipe to AchievementsView)
+    ]
+
     var body: some View {
         VStack {
-            TabView {
-                DialView()
-                    .tabItem() {
-                        Image(systemName: "house")
-                        Text("Home")
-                    }
-//                Dial2View()
-//                    .tabItem() {
-//                        Image(systemName: "testtube.2")
-//                        Text("concept2")
-//                    }
-                AchievementsGridView()
-                    .tabItem() {
-                        Image(systemName: "crown.fill")
-                        Text("Statistics")
-                    }
-                AchievementsView()
-                    .tabItem() {
-                        Image(systemName: "rosette")
-                        Text("Achievements")
-                    }
-            }
+            // Display the selected view based on the index
+            views[selectedView + 1]  // Adjust the index to map [-1, 0, 1, 2] to [0, 1, 2, 3] for the views array
+                .transition(.slide)
+                .animation(.easeInOut, value: selectedView)
+                .gesture(
+                    DragGesture()
+                        .onEnded { value in
+                            if value.translation.width < -50 {
+                                // Swipe left: Move to next view
+                                withAnimation {
+                                    selectedView = min(selectedView + 1, 2) // Don't exceed index 2 (rightmost view)
+                                }
+                            } else if value.translation.width > 50 {
+                                // Swipe right: Move to previous view
+                                withAnimation {
+                                    selectedView = max(selectedView - 1, -1) // Don't exceed index -1 (leftmost view)
+                                }
+                            }
+                        }
+                )
         }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        AchievementsView()
-        AchievementsGridView()
-//        ContentView()
+//        AchievementsView()
+//        AchievementsGridView()
+        ContentView()
 //        Dial2View()
     }
 }

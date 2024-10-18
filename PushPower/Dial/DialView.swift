@@ -143,6 +143,9 @@ struct DialView: View {
                     }
                 }
                 
+                HStack {
+                    StreakView()
+                }
                 
                 HStack(spacing: 25) {
                     StatTileCalBurnt(image: "flame.fill", value: String(rounder.preciseRound(Double(storedDailyPushups) * Kcal, precision: .hundredths)), measurment: "Kcal")
@@ -226,6 +229,19 @@ enum Achievement: String {
     case oneThousandGoalAchieved = "Completed 1000 pushups"
     case threeDayStreak = "Three Day Streak"
     // Add more achievements here as needed
+}
+
+// Computed property that combines all achievement states
+private var achievementsState: [Bool] {
+    [aJourneyBegins, firstGoalAchieved, oneHundredGoalAchieved, twoHundredGoalAchieved, threeHundredGoalAchieved, fourHundredGoalAchieved,
+     fiveHundredGoalAchieved, sixHundredGoalAchieved, sevenHundredGoalAchieved, eightHundredGoalAchieved, nineHundredGoalAchieved,
+     oneThousandGoalAchieved, threeDayStreakAchieved]
+}
+
+func handleMultipleAchievementsChange() {
+    print("Achievements updated: firstGoalAchieved=\(firstGoalAchieved), oneHundredGoalAchieved=\(oneHundredGoalAchieved), twoHundredGoalAchieved=\(twoHundredGoalAchieved)")
+    // Call any appropriate function when an achievement changes
+    checkForAchievement()
 }
     
 // Function to check and trigger achievements
@@ -317,7 +333,7 @@ func unlockAchievement(_ achievement: Achievement) {
     showAchievementPopup = true
     
     // Dismiss popup after 3 seconds
-    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
         showAchievementPopup = false
     }
 }
@@ -404,9 +420,9 @@ func getCurrentTimeString() -> String {
 
 //dev notes: Used for debugging
 func resetAppStorage() {
-if let appDomain = Bundle.main.bundleIdentifier {
-    UserDefaults.standard.removePersistentDomain(forName: appDomain)
-    print("AppStorage reset for all keys")
-}
+    if let appDomain = Bundle.main.bundleIdentifier {
+        UserDefaults.standard.removePersistentDomain(forName: appDomain)
+        print("AppStorage reset for all keys")
+    }
 }
 
