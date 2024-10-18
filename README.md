@@ -7,9 +7,14 @@
 > <br>**Version:** 1.0
 
 > [!NOTE]
-> this is a workout app that helps users achive 1000pushups in 1 day trough gameification 
+> this is a workout app that, over time and trough gameification, aim to helps users achive 1000pushups in 1 day.
 
 <br>
 
 ### 1st idéa for Homepage:
-![Screenshot of the first page in the application.](https://github.com/LukasHje/WorkoutApp---PushPower/blob/main/idea1_poc.png)
+<img src="https://github.com/LukasHje/WorkoutApp---PushPower/blob/main/DialView2.png" width="350" height="700">
+
+<br>
+
+### 1st idéa for Achievement-page:
+<img src="https://github.com/LukasHje/WorkoutApp---PushPower/blob/main/AchievementsView.png" width="350" height="700">
