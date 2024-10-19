@@ -11,10 +11,16 @@
 
 <br>
 
-### 1st idéa for Homepage:
-<img src="https://github.com/LukasHje/WorkoutApp---PushPower/blob/main/DialView2.png" width="350" height="700">
+### Homepage:
+<img src="https://github.com/LukasHje/WorkoutApp---PushPower/blob/main/current_design/DialView.png" width="350" height="700">
+
+### Settingspage:
+<img src="https://github.com/LukasHje/WorkoutApp---PushPower/blob/main/current_design/SettingsView.png" width="350" height="700">
+
+### Achievement-page (big screens):
+<img src="https://github.com/LukasHje/WorkoutApp---PushPower/blob/main/current_design/AchievementsGridView.png" width="350" height="700">
 
 <br>
 
-### 1st idéa for Achievement-page:
-<img src="https://github.com/LukasHje/WorkoutApp---PushPower/blob/main/AchievementsView.png" width="350" height="700">
+### Achievement-page (small screens):
+<img src="https://github.com/LukasHje/WorkoutApp---PushPower/blob/main/current_design/AchievementsView_OnTap.png" width="350" height="700">
