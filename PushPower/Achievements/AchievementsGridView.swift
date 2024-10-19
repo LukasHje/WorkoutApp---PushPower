@@ -11,10 +11,9 @@ import SwiftUI
 struct AchievementsGridView: View {
     
     //Achievments data
-    //New player achievment
-    @AppStorage("aJourneyBegins") private var aJourneyBegins = false
     // Pushup milestones
     @AppStorage("firstGoalAchieved") private var firstGoalAchieved = false
+    @AppStorage("50GoalAchieved") private var fiftyGoalAchieved = false
     @AppStorage("100GoalAchieved") private var oneHundredGoalAchieved = false
     @AppStorage("200GoalAchieved") private var twoHundredGoalAchieved = false
     @AppStorage("300GoalAchieved") private var threeHundredGoalAchieved = false
@@ -26,7 +25,13 @@ struct AchievementsGridView: View {
     @AppStorage("900GoalAchieved") private var nineHundredGoalAchieved = false
     @AppStorage("1000GoalAchieved") private var oneThousandGoalAchieved = false
     // Streak milestones
+    @AppStorage("aJourneyBegins") private var aJourneyBegins = false
+    @AppStorage("twoDayStreakAchieved") private var twoDayStreakAchieved = false
     @AppStorage("threeDayStreakAchieved") private var threeDayStreakAchieved = false
+    @AppStorage("fourDayStreakAchieved") private var fourDayStreakAchieved = false
+    @AppStorage("fiveDayStreakAchieved") private var fiveDayStreakAchieved = false
+    @AppStorage("sixDayStreakAchieved") private var sixDayStreakAchieved = false
+    @AppStorage("sevenDayStreakAchieved") private var sevenDayStreakAchieved = false
     
     // Track the selected achievement
     @State private var selectedAchievement: Achievement?
@@ -41,19 +46,25 @@ struct AchievementsGridView: View {
     // Array of achievements
     var achievements: [AchievementData] {
         [
-//          achievementCard(unlocked: aJourneyBegins, title: "A Journey Begins", image: "50_pushups", detail: "You have started your journey to greatness."), //no image for this one yet
-            AchievementData(unlocked: firstGoalAchieved, title: "Completed my First Goal", image: "50_pushups", detail: "You have reached your first milestone."),
-            AchievementData(unlocked: oneHundredGoalAchieved, title: "Completed 100 Pushups", image: "100_pushups", detail: "You have successfully completed 100 pushups."),
-            AchievementData(unlocked: twoHundredGoalAchieved, title: "Completed 200 Pushups", image: "200_pushups", detail: "You have reached 200 pushups. Keep going!"),
-            AchievementData(unlocked: threeHundredGoalAchieved, title: "Completed 300 Pushups", image: "300_pushups", detail: "You have reached 300 pushups. Keep going!"),
-//          AchievementData(unlocked: fourHundredGoalAchieved, title: "Completed 400 Pushups", image: "400_pushups", detail: "You have reached 400 pushups. Keep going!"),
-            AchievementData(unlocked: fiveHundredGoalAchieved, title: "Completed 500 Pushups", image: "500_pushups", detail: "You have reached 500 pushups. Keep going!"),
-//          achievementCard(unlocked: sixHundredGoalAchieved, title: "Completed 600 Pushups", image: "600_pushups", detail: "You have reached 600 pushups. Keep going!"), //no image for this one yet
-            AchievementData(unlocked: sevenHundredGoalAchieved, title: "Completed 700 Pushups", image: "700_pushups", detail: "You have reached 700 pushups. Keep going!"),
-//          achievementCard(unlocked: eightHundredGoalAchieved, title: "Completed 800 Pushups", image: "800_pushups", detail: "You have reached 800 pushups. Keep going!"), //no image for this one yet
-            AchievementData(unlocked: nineHundredGoalAchieved, title: "Completed 900 Pushups", image: "900_pushups", detail: "You have reached 900 pushups. Keep going!"),
-            AchievementData(unlocked: oneThousandGoalAchieved, title: "Completed 1000 Pushups", image: "1000_pushups", detail: "You have reached 1000 pushups. Keep going!"),
-//          achievementCard(unlocked: threeDayStreakAchieved, title: "Three-Day Streak", image: "50_pushups", detail: "You have completed a 3-day streak of pushups!"), //no image for this one yet
+            AchievementData(unlocked: firstGoalAchieved, title: "My First Goal", image: "firstGoalAchieved", detail: "You have reached your first milestone."),
+            AchievementData(unlocked: oneHundredGoalAchieved, title: "50 Pushups", image: "50_pushups", detail: "You have successfully completed 50 pushups."),
+            AchievementData(unlocked: oneHundredGoalAchieved, title: "100 Pushups", image: "100_pushups", detail: "You have successfully completed 100 pushups."),
+            AchievementData(unlocked: twoHundredGoalAchieved, title: "200 Pushups", image: "200_pushups", detail: "You have reached 200 pushups. Keep going!"),
+            AchievementData(unlocked: threeHundredGoalAchieved, title: "300 Pushups", image: "300_pushups", detail: "You have reached 300 pushups. Keep going!"),
+            AchievementData(unlocked: fourHundredGoalAchieved, title: "400 Pushups", image: "400_pushups", detail: "You have reached 400 pushups. Keep going!"),
+            AchievementData(unlocked: fiveHundredGoalAchieved, title: "500 Pushups", image: "500_pushups", detail: "You have reached 500 pushups. Keep going!"),
+            AchievementData(unlocked: sixHundredGoalAchieved, title: "600 Pushups", image: "600_pushups", detail: "You have reached 600 pushups. Keep going!"),
+            AchievementData(unlocked: sevenHundredGoalAchieved, title: "700 Pushups", image: "700_pushups", detail: "You have reached 700 pushups. Keep going!"),
+            AchievementData(unlocked: eightHundredGoalAchieved, title: "800 Pushups", image: "800_pushups", detail: "You have reached 800 pushups. Keep going!"),
+            AchievementData(unlocked: nineHundredGoalAchieved, title: "900 Pushups", image: "900_pushups", detail: "You have reached 900 pushups. Keep going!"),
+            AchievementData(unlocked: oneThousandGoalAchieved, title: "1000 Pushups", image: "1000_pushups", detail: "You have reached 1000 pushups. Keep going!"),
+            AchievementData(unlocked: aJourneyBegins, title: "A Journey Begins", image: "aJourneyBegins", detail: "You have started your journey to greatness."),
+            AchievementData(unlocked: twoDayStreakAchieved, title: "Two-Day Streak", image: "2_streak", detail: "You have completed a 2-day streak of pushups!"),
+            AchievementData(unlocked: threeDayStreakAchieved, title: "Three-Day Streak", image: "3_streak", detail: "You have completed a 3-day streak of pushups!"),
+            AchievementData(unlocked: fourDayStreakAchieved, title: "Four-Day Streak", image: "4_streak", detail: "You have completed a 4-day streak of pushups!"),
+            AchievementData(unlocked: fiveDayStreakAchieved, title: "Five-Day Streak", image: "5_streak", detail: "You have completed a 5-day streak of pushups!"),
+            AchievementData(unlocked: sixDayStreakAchieved, title: "Six-Day Streak", image: "6_streak", detail: "You have completed a 6-day streak of pushups!"),
+            AchievementData(unlocked: sevenDayStreakAchieved, title: "Seven-Day Streak", image: "7_streak", detail: "You have completed a 7-day streak of pushups!!!")
         ]
     }
     

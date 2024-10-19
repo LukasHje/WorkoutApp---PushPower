@@ -12,10 +12,9 @@ struct DialView: View {
     @Environment(\.scenePhase) var scenePhase
     
     // Tracking achievements using @AppStorage
-    //New player achievment
-    @AppStorage("aJourneyBegins") private var aJourneyBegins = false
     // Pushup milestones
     @AppStorage("firstGoalAchieved") private var firstGoalAchieved = false
+    @AppStorage("50GoalAchieved") private var fiftyGoalAchieved = false
     @AppStorage("100GoalAchieved") private var oneHundredGoalAchieved = false
     @AppStorage("200GoalAchieved") private var twoHundredGoalAchieved = false
     @AppStorage("300GoalAchieved") private var threeHundredGoalAchieved = false
@@ -27,8 +26,15 @@ struct DialView: View {
     @AppStorage("900GoalAchieved") private var nineHundredGoalAchieved = false
     @AppStorage("1000GoalAchieved") private var oneThousandGoalAchieved = false
     // Streak milestones
+    @AppStorage("aJourneyBegins") private var aJourneyBeginsAchieved = false
+    @AppStorage("twoDayStreakAchieved") private var twoDayStreakAchieved = false
     @AppStorage("threeDayStreakAchieved") private var threeDayStreakAchieved = false
+    @AppStorage("fourDayStreakAchieved") private var fourDayStreakAchieved = false
+    @AppStorage("fiveDayStreakAchieved") private var fiveDayStreakAchieved = false
+    @AppStorage("sixDayStreakAchieved") private var sixDayStreakAchieved = false
+    @AppStorage("sevenDayStreakAchieved") private var sevenDayStreakAchieved = false
     
+    // App data to keep track of goals and dates to track the users progress
     @AppStorage("last_reset_date") var lastResetDate: String = ""
     @AppStorage("last_completion_date") var lastCompletionDate: String = ""
     @AppStorage("start_time") var startTime: String = ""
@@ -184,6 +190,9 @@ struct DialView: View {
                 checkForAchievement() // Re-check achievements on app launch or view load
             }
         }
+        .onChange(of: achievementsState) { newValue in
+            checkForAchievement()
+        }
     }
     
     
@@ -215,8 +224,8 @@ func logPushupCompletion() {
 
 enum Achievement: String {
     
-    case aJourneyBegins = "My First Day"
-    case firstGoal = "Completed my First Goal: 50 pushups"
+    case firstGoalAchieved = "Completed my First Goal"
+    case fiftyGoalAchieved = "Completed 50 pushups"
     case oneHundredGoalAchieved = "Completed 100 pushups"
     case twoHundredGoalAchieved = "Completed 200 pushups"
     case threeHundredGoalAchieved = "Completed 300 pushups"
@@ -227,35 +236,33 @@ enum Achievement: String {
     case eightHundredGoalAchieved = "Completed 800 pushups"
     case nineHundredGoalAchieved = "Completed 900 pushups"
     case oneThousandGoalAchieved = "Completed 1000 pushups"
+    case aJourneyBeginsAchieved = "My First Day"
+    case twoDayStreak = "Two Day Streak"
     case threeDayStreak = "Three Day Streak"
+    case fourDayStreak = "Four Day Streak"
+    case fiveDayStreak = "Five Day Streak"
+    case sixDayStreak = "Six Day Streak"
+    case sevenDayStreak = "Seven Day Streak"
     // Add more achievements here as needed
 }
 
 // Computed property that combines all achievement states
 private var achievementsState: [Bool] {
-    [aJourneyBegins, firstGoalAchieved, oneHundredGoalAchieved, twoHundredGoalAchieved, threeHundredGoalAchieved, fourHundredGoalAchieved,
-     fiveHundredGoalAchieved, sixHundredGoalAchieved, sevenHundredGoalAchieved, eightHundredGoalAchieved, nineHundredGoalAchieved,
-     oneThousandGoalAchieved, threeDayStreakAchieved]
-}
-
-func handleMultipleAchievementsChange() {
-    print("Achievements updated: firstGoalAchieved=\(firstGoalAchieved), oneHundredGoalAchieved=\(oneHundredGoalAchieved), twoHundredGoalAchieved=\(twoHundredGoalAchieved)")
-    // Call any appropriate function when an achievement changes
-    checkForAchievement()
+    [firstGoalAchieved, fiftyGoalAchieved, oneHundredGoalAchieved, twoHundredGoalAchieved, threeHundredGoalAchieved, fourHundredGoalAchieved,
+     fiveHundredGoalAchieved, sixHundredGoalAchieved, sevenHundredGoalAchieved, eightHundredGoalAchieved, nineHundredGoalAchieved, oneThousandGoalAchieved,
+     aJourneyBeginsAchieved, twoDayStreakAchieved, threeDayStreakAchieved, fourDayStreakAchieved, fiveDayStreakAchieved, sixDayStreakAchieved, sevenDayStreakAchieved]
 }
     
 // Function to check and trigger achievements
 func checkForAchievement() {
     print("Checking for achievements. Streak: \(storedStreak), Daily Pushups: \(storedDailyPushups), Current Goal: \(storedCurrentGoal)")
             
-    // Check for "My First Day" achievement (first time user hits a streak of 1)
-    if storedStreak == 0 && storedDailyPushups > 0 && !aJourneyBegins {
-        unlockAchievement(.aJourneyBegins)
-    }
-    
     // Reaching a new pushup goal - achievements
     if storedDailyPushups >= storedCurrentGoal && !firstGoalAchieved {
-        unlockAchievement(.firstGoal)
+        unlockAchievement(.firstGoalAchieved)
+    }
+    if storedDailyPushups >= 50 && !fiftyGoalAchieved {
+        unlockAchievement(.fiftyGoalAchieved)
     }
     if storedDailyPushups >= 100 && !oneHundredGoalAchieved {
         unlockAchievement(.oneHundredGoalAchieved)
@@ -288,21 +295,39 @@ func checkForAchievement() {
         unlockAchievement(.oneThousandGoalAchieved)
     }
     
-    // Doing pushups in successive days - acievements
+    // Check for "My First Day" achievement (first time user hits a streak of 1)
+    if storedStreak == 1 && !aJourneyBeginsAchieved {
+        unlockAchievement(.aJourneyBeginsAchieved)
+    }
+    // Doing pushups in successive days - achievements
+    if storedStreak == 2 && !twoDayStreakAchieved {
+        unlockAchievement(.twoDayStreak)
+    }
     if storedStreak == 3 && !threeDayStreakAchieved {
         unlockAchievement(.threeDayStreak)
     }
-    // Add more achievement conditions here
+    if storedStreak == 4 && !fourDayStreakAchieved {
+        unlockAchievement(.fourDayStreak)
+    }
+    if storedStreak == 5 && !fiveDayStreakAchieved {
+        unlockAchievement(.fiveDayStreak)
+    }
+    if storedStreak == 6 && !sixDayStreakAchieved {
+        unlockAchievement(.sixDayStreak)
+    }
+    if storedStreak == 7 && !sevenDayStreakAchieved {
+        unlockAchievement(.sevenDayStreak)
+    }
 }
 
 // Unlock an achievement and show the popup
 func unlockAchievement(_ achievement: Achievement) {
     switch achievement {
-    case .aJourneyBegins:
-        aJourneyBegins = true
         
-    case .firstGoal: 
+    case .firstGoalAchieved:
         firstGoalAchieved = true
+    case .fiftyGoalAchieved:
+        fiftyGoalAchieved = true
     case .oneHundredGoalAchieved:
         oneHundredGoalAchieved = true
     case .twoHundredGoalAchieved:
@@ -323,9 +348,20 @@ func unlockAchievement(_ achievement: Achievement) {
         nineHundredGoalAchieved = true
     case .oneThousandGoalAchieved:
         oneThousandGoalAchieved = true
-
+    case .aJourneyBeginsAchieved:
+        aJourneyBeginsAchieved = true
+    case .twoDayStreak:
+        twoDayStreakAchieved = true
     case .threeDayStreak:
         threeDayStreakAchieved = true
+    case .fourDayStreak:
+        fourDayStreakAchieved = true
+    case .fiveDayStreak:
+        fiveDayStreakAchieved = true
+    case .sixDayStreak:
+        sixDayStreakAchieved = true
+    case .sevenDayStreak:
+        sevenDayStreakAchieved = true
     }
     
     // Set the achievement text and show the popup

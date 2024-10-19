@@ -11,12 +11,18 @@ import SwiftUI
 // Example SettingsView
 struct SettingsView: View {
     var body: some View {
-        VStack {
-            Text("Settings View")
-                .font(.largeTitle)
-                .padding()
-            Text("Swipe right to go back to Main View")
-                .padding()
+        ZStack {
+            // Background color for the whole screen
+            Color.backgroundGray
+                .edgesIgnoringSafeArea(.all) // Extend the background to cover the entire screen
+            
+            VStack {
+                Text("Settings View")
+                    .font(.largeTitle)
+                    .padding()
+                Text("Swipe right to go back to Main View")
+                    .padding()
+            }
         }
     }
 }
