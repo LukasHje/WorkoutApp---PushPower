@@ -41,7 +41,7 @@ struct DialView: View {
     
     @AppStorage("streak") private var storedStreak = 0
     @AppStorage("daily_pushups") private var storedDailyPushups = 0
-    @AppStorage("current_goal") var storedCurrentGoal = 100
+    @AppStorage("current_goal") var storedCurrentGoal = 25
     
     //show input-form or achievment-popup
     @State private var showUserInput = false
